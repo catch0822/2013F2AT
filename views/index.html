@@ -71,12 +71,13 @@ $( document ).ready(function() {
 	var num_y = 3;
     var num = num_x * num_y;
     var init_x = 12;
-    var init_y = 1;
+    var init_y = 10;
     var init_t1 =1200;
  	var init_t2 =1500;
    // <div class="drop" data-6500="left:15%;bottom:100%;" data-9500="bottom:0%;">linear</div>
    var action_order=[6, 7, 8, 5, 4, 3, 0, 1, 2];
-
+   var file_name=["125_box.png", "chefinstyle.png", "digitalair.png","gwangdean.png",
+   "hlaf.png", "julia.png", "Leonardo.png", "ling.png", "ZHANG.png"]
  	for (var q = 0 ; q < num ; q ++) {
  		i=action_order[q]
  		t1 =init_t1+150*q;
@@ -99,19 +100,12 @@ $( document ).ready(function() {
  		}else{
  			y= init_y+60;
  		}
-
  		duration = 3000;
  		random_deg = Math.floor((Math.random()*90)+1);
-        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img src=\"images/B/123_box.png\"></div>');
+ 		var go_img='<div data-0="display:none" data-3000="display:block;"><input type="image" id="go" src="images/B/go.png" style=" position:absolute; bottom:20px; right:30px; z-index:101;"/></div>';
+        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img src=\"images/B/box/'+file_name[i]+'\">'+go_img+'</div>');
          div.appendTo('#sceneB');
-
-        // TODO: modified hard code 
-        if(i==0){
-        	var button = $('<div class="drop" data-1700="transform:scale(0) rotate(90deg);" data-3000="transform:scale(1) rotate(0deg);opacity:1;"><input type="image" id="go" src="images/B/go.png" style="position:absolute; top:250px; left:445px; z-index:101;"/></div>');
-        	button.appendTo('#sceneB');
-        }
  	}
-
 
  	//init scene E
  	$.ajax({
@@ -229,6 +223,18 @@ function play_next_loop() {
 }
 </script>
 <style>
+
+header[role=banner] {
+position: fixed;
+top: 0;
+width: 100%;
+height: 10%;
+z-index: 1000;
+text-align: center;
+overflow: hidden;
+cursor: pointer;
+}
+
 #sceneA {
 	left:0;
 	width:100%;
@@ -298,7 +304,14 @@ div{ word-wrap: break-word; word-break: normal; }
 
 </head>
 <body>
-<div style="text-align:right">
+
+<header role="banner">
+	<div data-0="display:none;" data-1200="display:block;" style="width:100%">	
+		<a href="#"><img src="images/icons/air.png"/></a>
+	</div>
+</header>
+
+<div style="text-align:right;">
 	<input type="image" id="top_fb" src="images/A/top_fb.png"/>
 	<input type="image" id="top_Tweets" src="images/A/top_Tweets.png"/>
 	<input type="image" id="facebook_logout" src="images/log-out.png" style="display:none" onclick="facebook_logout()"/>
@@ -346,7 +359,8 @@ div{ word-wrap: break-word; word-break: normal; }
 
 	<!--Scene A Content-->
 	<div style="width:100%;height:565px; margin-top:15%;">		
-		<img id="logo" src="images/A/logo.png"><br/><br/>
+		<img id="logo" src="images/A/logo.png"><br/>
+		<img src="images/A/word.png"><br/><br/><br/>
 		<input type="image" id="facebook_login" src="images/A/log-in.png" onclick="facebook_login()"/>
  		<img id="log-in_ok" src="images/A/log-in_ok.png" style="display:none"/>
  		<div data-0="transform:rotate(0deg);transform-origin:center;" data-350="transform:rotate(180deg);bottom:-3%" style="width:100%">
@@ -356,7 +370,7 @@ div{ word-wrap: break-word; word-break: normal; }
     <div data-0="display:none;" data-350="display:block;bottom:-6%" data-850="display:none;" style="width:100%;">
         <img id="play_next" src="images/A/play_next.png"/> 
     </div>
-    <div data-0="display:none;" data-750="display:block;opacity:1;bottom:0%" data-900="bottom:-16%" data-1159="margin-top:0px;" data-1200="opacity:0.3;bottom:-30%;" style="width:100%;">
+    <div data-0="display:none;" data-750="display:block;opacity:1;bottom:0%" data-900="bottom:-16%" data-1159="margin-top:0px;opacity:0.3" data-1200="display:none;" style="width:100%;z-index:-1;">
         <img id="triangle" src="images/B/Triangle.png"/> 
     </div>
 </div>
