@@ -29,50 +29,62 @@
             var geo = json;
             var lat = geo.main.latitude;
             var lon = geo.main.longitude;
-            // ge.getFeatures().appendChild(createMarker(geo.main.title, lat, lon));
-            //changeLookAt(lat, lon);
-            setScore(50);
+            //setScore(Math.random()*100);
+            setScore(69);
             var s = skrollr.init({ edgeStrategy: 'set' });
         });
     }
     // TODO adjust this args.
-    var scores = [
-        {"lat":1,"lon":1,
-        	"p1":{"lat":1,"lon":1, "title":"q1"},
-        	"p2":{"lat":2,"lon":2, "title":"q2"},"zoom":1, "altitude":4000000, "heading":0, "tilt":0, "range":0},
-        {"lat":1,"lon":1,
-        	"p1":{"lat":1,"lon":1},
-        	"p2":{"lat":2,"lon":2},"zoom":1, "altitude":40000, "heading":0, "tilt":0, "range":0},
-        {"lat":1,"lon":1,
-        	"p1":{"lat":1,"lon":1},
-        	"p2":{"lat":2,"lon":2},"zoom":1, "altitude":4000, "heading":0, "tilt":0, "range":0},
-        {"lat":1,"lon":1,
-        	"p1":{"lat":1,"lon":1},
-        	"p2":{"lat":2,"lon":2},"zoom":1, "altitude":100, "heading":0, "tilt":0, "range":0},
-        {"lat":1,"lon":1,
-        	"p1":{"lat":1,"lon":1},
-        	"p2":{"lat":2,"lon":2},"zoom":1, "altitude":3, "heading":0, "tilt":0, "range":0},
-    ];
+    var scores = {
+       "lat":25.057111,"lon":121.614302, "title":"Yahoo TW",
+       "target":[
+          {"lat":25.057111,"lon":121.614302,"title":"Yahoo TW","zoom":1, "altitude":50, "heading":0, "tilt":0, "range":0},
+          {"lat":22.278053,"lon":114.185225,"title":"Yahoo HK","zoom":1, "altitude":1520000, "heading":0, "tilt":0, "range":0},
+          {"lat":19.112412,"lon":72.860548,"title":"Yahoo Bangkok","zoom":1, "altitude":9520000, "heading":0, "tilt":0, "range":0},
+          {"lat":51.514037,"lon":-0.128441,"title":"Yahoo UK","zoom":1, "altitude":19520000, "heading":0, "tilt":0, "range":0},
+          {"lat":37.416881,"lon":-122.025616,"title":"Yahoo US","zoom":1, "altitude":29520000, "heading":0, "tilt":0, "range":0}
+       ]
+    }
 
     function setScore(score) {
         // TODO clear markers
+        console.log("score : " + score);
         var idx;
         if (score <= 20) {
-            idx = 0;
+            idx = 4;
         } else if (score <= 40) {
-            idx = 1;
+            idx = 3;
         } else if (score <= 60) {
             idx = 2;
         } else if (score <= 80) {
-            idx = 3;
+            idx = 1;
         } else {
-            idx = 4;
+            idx = 0;
         }
-        var r = scores[idx];
-        ge.getFeatures().appendChild(createMarker("", r.p1.lat, r.p1.lon));
-        ge.getFeatures().appendChild(createMarker("", r.p2.lat, r.p2.lon));
-        changeLookAt(r);
+        var r = scores.target[idx];
+        ge.getFeatures().appendChild(createMarker(scores.title, scores.lat, scores.lon));
+        ge.getFeatures().appendChild(createMarker(r.title, r.lat, r.lon));
+        createLine(scores.lat, scores.lon, r.lat, r.lon);
+        changeLookAt(scores.lat, scores.lon, r);
     }
+
+    function createLine(lat1, lon1, lat2, lon2) {
+      // Create the placemark
+      var lineStringPlacemark = ge.createPlacemark('');
+      // Create the LineString
+      var lineString = ge.createLineString('');
+      // Add LineString points
+      lineString.getCoordinates().pushLatLngAlt(lat1, lon1, 0);
+      lineString.getCoordinates().pushLatLngAlt(lat2, lon2, 0);
+      lineStringPlacemark.setStyleSelector(ge.createStyle(''));
+      lineStringPlacemark.setGeometry(lineString);
+      // Add the feature to Earth
+      var lineStyle = lineStringPlacemark.getStyleSelector().getLineStyle();
+      lineStyle.setWidth(5);
+      lineStyle.getColor().set('9900ffff');  // aabbggrr format
+      ge.getFeatures().appendChild(lineStringPlacemark);
+    }
+
     function createMarker(title, lat, lon) {
         var pmk = ge.createPlacemark('');
         pmk.setDescription(title);
@@ -83,10 +95,10 @@
         return pmk;
     }
     // Change the camera 
-    function changeLookAt(s){
+    function changeLookAt(lat, lon, s){
         var la = ge.createLookAt('');
         // latitude, longitude, altitude, altitudeMode, heading, tilt, range
-        la.set(s.lat, s.lon, s.altitude, ge.ALTITUDE_RELATIVE_TO_GROUND, s.heading, s.tilt, s.range);
+        la.set(lat, lon, s.altitude, ge.ALTITUDE_RELATIVE_TO_GROUND, s.heading, s.tilt, s.range);
         ge.getView().setAbstractView(la);
     }
 
