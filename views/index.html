@@ -426,22 +426,22 @@ img.exhibition_photo{
 </div>
 
 <div id="sceneG" style="width:100%; height:100%" data-0="display:none" data-17500="display:block;background:rgb(197,242,255);" 
-		data-19500="background:rgb(197,242,0);">
+		data-20500="background:rgb(197,242,0);">
 		<div id="circle" style="width:600px; height:600px; background: url(images/G/G_Circle_bg.png)" data-17500="transform:scale(0.2);top:5%;left:20%;" 
-		data-19500="transform:scale(1);">		
+		data-20500="transform:scale(1);">		
 			<img src="images/G/G_Circle_bg.png"/>
 		</div>
 		<div style="width: 600px;
 			    height: 600px;
 			    -webkit-border-radius: 300px;
 			    -moz-border-radius: 300px;
-			    border-radius: 300px;" data-17500="transform:scale(0.2);background:rgb(225, 225, 225);top:8%;left:22%;" data-19500="transform:scale(1);background:rgb(0,225,225);">
-			<div data-17500="" data-19500="margin-top:100px; margin-left:30px"><font id="score" style="font-family: 'Sintony', sans-serif; color:#FFFFFF; font-size:420px"></font></div>
+			    border-radius: 300px;" data-17500="transform:scale(0.2);background:rgb(225, 225, 225);top:8%;left:22%;" data-20500="transform:scale(1);background:rgb(0,225,225);">
+			<div data-17500="" data-20500="margin-top:100px; margin-left:30px"><font id="score" style="font-family: 'Sintony', sans-serif; color:#FFFFFF; font-size:420px"></font></div>
 		</div>
 
 		<div id="spacer" style="height:20px; background-color:white; margin-top:20%;-webkit-transform: rotate(3deg);"></div>
 
-		<div data-17500="top:15%;left:40%;" data-19500="top:39%;left:60%;"><img src="images/G/G_word.png"></div>	
+		<div data-17500="top:15%;left:40%;" data-20500="top:39%;left:60%;"><img src="images/G/G_word.png"></div>	
 </div>
 
 <script type="text/javascript">
@@ -521,9 +521,10 @@ img.exhibition_photo{
     }
     // for popular
     var score = 60; // FIXME replace real data
-    var duration = 2000;
-    var score_interval = Math.round(duration / score);
+    var score_duration = 3000;
+    var score_interval = Math.round(score_duration / score);
     var score_start_time = 17500;
+
 
     window.setInterval(function(){update_news_time()}, 100);
     $.getJSON("js/test_news.json", function(json) {
@@ -542,7 +543,7 @@ img.exhibition_photo{
     			var s = json_news[id].title;
     			$(this).html(s.substring(0, idx));
     		});
-    	} else if( s >= score_start_time && s < 19500){
+    	} else if( s >= score_start_time && s < score_start_time + score_duration){
     		var display_score = Math.round((s - score_start_time) / score_interval);
     		$('#score').html(display_score);
     	}
