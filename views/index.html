@@ -492,115 +492,115 @@ img.exhibition_photo{
 </div>
 
 <script type="text/javascript">
-	var position = [
-		{'x':16,'y':48},
-		{'x':16,'y':78},
-		{'x':16,'y':96},
-		{'x':50,'y':56},
-		{'x':50,'y':69},
-	];
-	function append_news(t, x, y, duration) {
-		var div = $('<div data-' + (t-1) +'="opacity:0" ' + 
-                'data-' + t + '="opacity:1;left:' + x +'%;top:'+ y +'%;" ' + 
-                'data-' + duration + '="" ><font class="news" style="font-size:16px; font-family: arial;font-weight: bold;"></font></div>');
-       	div.appendTo('#sceneF');
+var position = [
+	{'x':16,'y':48},
+	{'x':16,'y':78},
+	{'x':16,'y':96},
+	{'x':50,'y':56},
+	{'x':50,'y':69},
+];
+function append_news(t, x, y, duration) {
+	var div = $('<div data-' + (t-1) +'="opacity:0" ' + 
+            'data-' + t + '="opacity:1;left:' + x +'%;top:'+ y +'%;" ' + 
+            'data-' + duration + '="" ><font class="news" style="font-size:16px; font-family: arial;font-weight: bold;"></font></div>');
+   	div.appendTo('#sceneF');
+}
+var MAX_NEWS_NUM = 5;
+var json_news;
+var title;
+
+var title_gap;
+var news_anim_duration = 1000;
+var news_gap = 0;
+function generate_news(json) {
+	news_gap = news_anim_duration / get_max_text_size(json);
+    var duration = 3500;
+    var base_time = 14000;
+    var range = 1000;
+    var num_y = 3;
+    var num_x = 3;
+    var num = num_x * num_y;
+    var interval = Math.floor(duration / num);
+    var gap_y = 100 / num_y;
+    var gap_x = 100 / num_x;
+    var max_num = (MAX_NEWS_NUM < json.length) ? MAX_NEWS_NUM : json.length;
+    for (var i=0 ; i < max_num ; i++) {
+        var t = interval * i;
+        var x = position[i].x;
+        var y = position[i].y;
+        append_news(base_time+t, x, y, duration);
+    }
+    json_news = json;
+}
+
+function get_max_text_size(json) {
+	var max = 0;
+	for(var i in json) {
+		var s = json[i].title;
+		if (max < s.length) {
+			max = s.length;
+		}
 	}
-	var MAX_NEWS_NUM = 5;
-	var json_news;
-	var title;
-    
-    var title_gap;
-    var news_anim_duration = 1000;
-    var news_gap = 0;
-    function generate_news(json) {
-    	news_gap = news_anim_duration / get_max_text_size(json);
-        var duration = 3500;
-        var base_time = 14000;
-        var range = 1000;
-        var num_y = 3;
-        var num_x = 3;
-        var num = num_x * num_y;
-        var interval = Math.floor(duration / num);
-        var gap_y = 100 / num_y;
-        var gap_x = 100 / num_x;
-        var max_num = (MAX_NEWS_NUM < json.length) ? MAX_NEWS_NUM : json.length;
-        for (var i=0 ; i < max_num ; i++) {
-            var t = interval * i;
-            var x = position[i].x;
-            var y = position[i].y;
-            append_news(base_time+t, x, y, duration);
-        }
-        json_news = json;
-    }
+	return max;
+}
 
-    function get_max_text_size(json) {
-    	var max = 0;
-    	for(var i in json) {
-    		var s = json[i].title;
-    		if (max < s.length) {
-    			max = s.length;
-    		}
-    	}
-    	return max;
-    }
-
-    function update_news_time() {
-        var d = new Date(); 
-        var datetime = d.getDate() + "/"
-                + (d.getMonth()+1)  + "/" 
-                + d.getFullYear() + " @ "  
-                + d.getHours() + ":"  
+function update_news_time() {
+    var d = new Date(); 
+    var datetime = d.getDate() + "/"
+            + (d.getMonth()+1)  + "/" 
+            + d.getFullYear() + " @ "  
+            + d.getHours() + ":"  
+            + d.getMinutes() + ":" 
+            + d.getSeconds() + ":"
+            + d.getMilliseconds();
+    var datetime = d.getFullYear()+"年 "
+    			+ (d.getMonth()+1)+"月"
+    			+ d.getDate()+"日 "
+    			+ d.getHours() + ":"  
                 + d.getMinutes() + ":" 
                 + d.getSeconds() + ":"
                 + d.getMilliseconds();
-        var datetime = d.getFullYear()+"年 "
-        			+ (d.getMonth()+1)+"月"
-        			+ d.getDate()+"日 "
-        			+ d.getHours() + ":"  
-	                + d.getMinutes() + ":" 
-	                + d.getSeconds() + ":"
-	                + d.getMilliseconds();
-        $('#time_display').html(datetime);
-    }
-    
+    $('#time_display').html(datetime);
+}
 
-    window.setInterval(function(){update_news_time()}, 100);
-    $.getJSON("js/test_news.json", function(json) {
-        generate_news(json);
-        var s = skrollr.init({ edgeStrategy: 'set' });
-    });
 
-    $(window).scroll(function(){
-    	var s = $('body').scrollTop();
-    	if( s >= 14200 && s < 15000){
-    		var idx = Math.round((s - 14200) / title_gap);
-    		$('#news_title').html(title.substring(0, idx));
-    	}
-    	if ( s >= 15000 && s < 18500) {
-    		var idx = Math.round((s - 15000) / news_gap);
-    		$('.news').each(function(id) {
-    			var s = json_news[id].title;
-    			$(this).html(s.substring(0, idx));
-    		});
-    	}
-    	if( s >= score_start_time  && s < score_start_time + score_duration){
-    		var display_score = Math.round((s - score_start_time) / score_interval);
-    		console.log(display_score);
-    		$('#score').html(display_score);
-    	}
-    });
-	</script>
+window.setInterval(function(){update_news_time()}, 100);
+$.getJSON("js/test_news.json", function(json) {
+    generate_news(json);
+    var s = skrollr.init({ edgeStrategy: 'set' });
+});
+
+$(window).scroll(function(){
+	var s = $('body').scrollTop();
+	if( s >= 14200 && s < 15000){
+		var idx = Math.round((s - 14200) / title_gap);
+		$('#news_title').html(title.substring(0, idx));
+	}
+	if ( s >= 15000 && s < 18500) {
+		var idx = Math.round((s - 15000) / news_gap);
+		$('.news').each(function(id) {
+			var s = json_news[id].title;
+			$(this).html(s.substring(0, idx));
+		});
+	}
+	if( s >= score_start_time  && s < score_start_time + score_duration){
+		var display_score = Math.round((s - score_start_time) / score_interval);
+		console.log(display_score);
+		$('#score').html(display_score);
+	}
+});
+</script>
 
 <script>
  $(function(){
-        $( "#go" ).mousedown(function() {
-             document.getElementById("go").src = "images/B/go_2.png";
-        });
-         $( "#go" ).mouseup(function() {
-            document.getElementById("go").src = "images/B/go.png";  
-            $("#sceneE").show();
-            window.scrollTo(0, 4000);
-        });
+    $( "#go" ).mousedown(function() {
+         document.getElementById("go").src = "images/B/go_2.png";
+    });
+     $( "#go" ).mouseup(function() {
+        document.getElementById("go").src = "images/B/go.png";  
+        $("#sceneE").show();
+        window.scrollTo(0, 4000);
+    });
  });
  </script>
 </body>
