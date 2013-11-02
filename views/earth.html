@@ -12,8 +12,9 @@
 		<div id="bg" style="width:100%;height:100%;background:rgb(89,239,203);" data-0="top:-100%;" data-500="top:0%;"></div>
 		<img data-0="" data-3000="" src="images/H/google earth_word.png"/>
 		<div id="map3d" data-0="display:none;" data-500="display:block;top:200%;" data-1000="top:50%;" style="height:100%; width:100%;"></div>
-		<div id="comment" data-0="top:45%;left:50%;display:none;" data-500="display:block;opacity:0;" data-1000="opacity:1;">HELLO</div>
-		<div id="comment_friends" data-0="top:25%;left:50%;display:none;" data-500="display:block;opacity:0" data-1000="opacity:1;" div-3000=""></div>
+		<div id="comment" data-0="top:45%;left:50%;display:none;" data-500="display:block;opacity:0;" data-1000="opacity:1;" ></div>
+		<div id="comment_friends" data-0="top:25%;left:50%;display:none;" data-500="display:block;" ></div>
+
 	</div>
     
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -27,23 +28,24 @@
     <script type="text/javascript">
     var s = skrollr.init({ edgeStrategy: 'set'});
     var ge;
+    var isInit = false;
     function initialize() {
-        //setScore(0);
+    	isInit = true;
         var s = skrollr.init({ edgeStrategy: 'set' });
     }
     var scores = {
        "lat":25.057111,"lon":121.614302, "title":"Yahoo TW",
        "target":[
-          {"lat":25.057111,"lon":121.614302,"title":"Yahoo TW","zoom":1, "altitude":50, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO US"},
-          {"lat":22.278053,"lon":114.185225,"title":"Yahoo HK","zoom":1, "altitude":1520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO US"},
-          {"lat":19.112412,"lon":72.860548,"title":"Yahoo Bangkok","zoom":1, "altitude":9520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO US"},
-          {"lat":51.514037,"lon":-0.128441,"title":"Yahoo UK","zoom":1, "altitude":19520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO US"},
+          {"lat":25.057111,"lon":121.614302,"title":"Yahoo TW","zoom":1, "altitude":50, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO TW"},
+          {"lat":22.278053,"lon":114.185225,"title":"Yahoo HK","zoom":1, "altitude":1520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO HK"},
+          {"lat":19.112412,"lon":72.860548,"title":"Yahoo Bangkok","zoom":1, "altitude":9520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO Bangkok"},
+          {"lat":51.514037,"lon":-0.128441,"title":"Yahoo UK","zoom":1, "altitude":19520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO UK"},
           {"lat":37.416881,"lon":-122.025616,"title":"Yahoo US","zoom":1, "altitude":29520000, "heading":0, "tilt":1000, "range":0, "comment" : "YAHOO US"}
        ]
     }
 
     function setScore(score) {
-        console.log("score : " + score);
+        //console.log("score : " + score);
         var idx;
         if (score <= 20) {
             idx = 4;
@@ -56,6 +58,11 @@
         } else {
             idx = 0;
         }
+        /* var c = scores.target[idx].comment;
+        var per_s = score % 20;
+        var w_idx = Math.floor(c.length * per_s);
+        $('#comment').html(c.substring(0, w_idx));
+        console.log(w_idx + " " +c.substring(0, w_idx));*/
         if (idx != current_idx) {
             // TODO clear line
             current_idx = idx;
@@ -64,6 +71,8 @@
             ge.getFeatures().appendChild(createMarker(r.title, r.lat, r.lon));
             createLine(scores.lat, scores.lon, r.lat, r.lon);
             changeLookAt(scores.lat, scores.lon, r);
+            var c = scores.target[idx].comment;
+        	$('#comment').html(c);
         }
     }
 
@@ -123,20 +132,26 @@
     var base_earth_start_time = 0;
     var earth_start_time = base_earth_start_time + 1000; // TODO
     var current_idx = -1 ;
-    
-    set_friend_tag(3);
+
+    var word_interval = earth_duration / 5;
+
+    set_friend_tag(3); // TODO set real friend data
+
     $(window).scroll(function(){
         var s = $('body').scrollTop();
         if (s >= earth_start_time && s < earth_start_time + earth_duration) {
-            setScore(((s - earth_start_time) / earth_duration) * score);
+        	if (isInit) {
+            	setScore(((s - earth_start_time) / earth_duration) * score);
+            }
         }
     });
+
     function set_friend_tag(num) { //TOOD update interface
         var time_gap = Math.floor(earth_duration / num);
         for(var i = 0 ; i < num ; i++){
-            var t1 = time_gap * i;
-            var t2 = time_gap * (i + 1);
-            var div = $('<div class="friend" style="float:left" ' + 
+            var t1 = time_gap * i + earth_start_time;
+            var t2 = time_gap * (i + 1) + earth_start_time;
+            var div = $('<div class="friend" style="float:left;" ' + 
                 'data-' + base_earth_start_time + '="display:none;"' + 
                 'data-' + t1 + '="display:block;opacity:0;"' + 
                 'data-' + t2 + '="opacity:1;" ><img src="http://profile.ak.fbcdn.net/hprofile-ak-ash2/1117343_627742448_835827200_s.jpg"/></div>');

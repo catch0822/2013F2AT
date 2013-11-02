@@ -4,7 +4,7 @@ from common import connect
 
 flickr_url = 'http://api.flickr.com/services/rest/'
 flickr_key = 'c588daa85452f53eb3babe7a893a359d'
-base_params = 'method=flickr.photos.search&format=json&nojsoncallback=1&extras=geo,tags,date_taken,description&has_geo=true&api_key={key}'.format(key=flickr_key)
+base_params = 'method=flickr.photos.search&format=json&nojsoncallback=1&extras=geo,tags,date_taken,description&api_key={key}'.format(key=flickr_key)
 
 def parser_content(filename, keywords):
     process('text_' + filename, keywords, "text")
@@ -12,6 +12,7 @@ def parser_content(filename, keywords):
 
 def connect_flickr(keyword, field):
     url = generate_url(keyword, str(1), field)
+    print url
     return connect(url)
 
 def generate_url(keyword, page, field):
