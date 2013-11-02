@@ -72,12 +72,12 @@ $( document ).ready(function() {
 	var num_x = 3;
 	var num_y = 3;
     var num = num_x * num_y;
-    var init_x = 12;
+    var init_x = 14;
     var init_y = 10;
     var init_t1 =1200;
  	var init_t2 =1500;
    // <div class="drop" data-6500="left:15%;bottom:100%;" data-9500="bottom:0%;">linear</div>
-   var action_order=[6, 7, 8, 5, 4, 3, 0, 1, 2];
+   var action_order=[0, 1, 2, 5, 4, 3, 6, 7, 8];
    var file_name=["125_box.png", "chefinstyle.png", "digitalair.png","gwangdean.png",
    "hlaf.png", "julia.png", "Leonardo.png", "ling.png", "ZHANG.png"]
  	for (var q = 0 ; q < num ; q ++) {
@@ -104,12 +104,11 @@ $( document ).ready(function() {
  		}
  		duration = 3000;
  		random_deg = Math.floor((Math.random()*90)+1);
- 		var go_img='<div data-0="display:none" data-3000="display:block;"><input type="image" id="go" src="images/B/go.png" style=" position:absolute; bottom:20px; right:30px; z-index:101;"/></div>';
-        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img src=\"images/B/box/'+file_name[i]+'\">'+go_img+'</div>');
+        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><input type="image" class="exhibition" id="exhibition_0" src=\"images/B/box/'+file_name[q]+'\"/></div>');
          div.appendTo('#sceneB');
  	}
 
- 	//init scene E
+ 	 var sceneE_action_order=[0, 4, 8, 12, 9, 5, 1, 2, 6, 10, 13, 11, 7, 3]
  	$.ajax({
  		async:false,
 		type: 'POST',
@@ -118,12 +117,6 @@ $( document ).ready(function() {
 		},
 		url: '/flickr/readFile',            
 		success: function(res) {
-			// <div class="public" data-8000="transform:scale(0) rotate(90deg);" data-8200="transform:scale(1) rotate(0deg);" >
-			// 	<img class="exhibition_photo" src="https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg"/>
-			// </div>
-			// <div class="private" data-8000="transform:scale(0) rotate(90deg);" data-8200="transform:scale(1) rotate(0deg); left:40%" >
-			// 	<img class="exhibition_photo" src="https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg"/>
-			// </div>
 			init_t1= 10500;
 			init_t2= 10900;
 			var duration= 4000;
@@ -134,18 +127,21 @@ $( document ).ready(function() {
 		      var values = flickr[ property ];
 		      return values[ Math.floor( Math.random() * values.length ) ];
 		    };
-		    var row_1_x = [12, 32, 52, 72]
-		    var row_1_y = [2, 2, 2, 2]
-		    var row_2_x = [10, 30, 50, 70]
-		    var row_2_y = [26, 26, 26, 26]
-		    var row_3_x = [12, 32, 52, 72]
-		    var row_3_y = [50, 50, 50, 50]
-		    var row_4_x = [12, 52]
-		    var row_4_y = [74, 74]
 
-		    for(var i=0; i<14 ; i++){
-		    	t1 =init_t1+150*i;
- 				t2 =init_t2+150*i;
+
+		    var row_1_x = [12, 32, 54, 72]
+		    var row_1_y = [4, 4, 4, 4]
+		    var row_2_x = [11, 32, 53, 71]
+		    var row_2_y = [28, 29, 29, 28]
+		    var row_3_x = [12, 32, 52, 72]
+		    var row_3_y = [52, 53, 52, 53]
+		    var row_4_x = [12, 52]
+		    var row_4_y = [75, 76]
+
+		    for(var q=0; q<14 ; q++){
+		    	i= sceneE_action_order[q];
+		    	t1 =init_t1;
+ 				t2 =init_t2+150*q;
  				var x, y;
  				if(i >= 4 && i<8){
  					x=row_2_x[i-4];	
@@ -163,8 +159,12 @@ $( document ).ready(function() {
  					x=row_1_x[i];	
  					y=row_1_y[i];	
  				}
-		        className = flickr.getRandom('categories');
-		        var div= $(' <div class="'+className+'"' + 'data-' + t1 + '="transform:scale(0) rotate(90deg);opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[i]+'"/></div>');
+		        //className = flickr.getRandom('categories');
+		        var className = "public";
+		        if(i==9 || i==11){
+		        	className="private";
+		        }
+		        var div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[i]+'"/></div>');
 				div.appendTo('#sceneE_photo_gallery');
 		    }
 		//  alert(res.imgUrl[0]
@@ -280,6 +280,16 @@ cursor: pointer;
 	background-size:100%;
     background-repeat:no-repeat;
     text-align: center;
+    vertical-align:middle;
+}
+
+#sceneF {
+	width:100%;
+	height:100%;
+	background: url('images/F/quote_bg.png');
+	background-size:100%;
+    background-repeat:no-repeat;
+    text-align: center;
     vertical-align:middle
 }
 
@@ -308,9 +318,8 @@ img.exhibition_photo{
 
 </head>
 <body>
-
 <header role="banner">
-	<div data-0="display:none;" data-1200="display:block;" style="width:100%">	
+	<div data-0="display:none;" data-1200="display:block;" style="width:100%; z-index:-1;">	
 		<a href="#"><img src="images/icons/art.png"/></a>
 	</div>
 </header>
@@ -333,34 +342,33 @@ img.exhibition_photo{
 			</div>
 		</li>
 		<li>
-			<div onclick="">
+			<div onclick="window.scrollTo(0, 3600); return false;">
 				<a id="a_D">D</a>
 			</div>
 		</li>
 		<li>
-			<div onclick="">
+			<div onclick="window.scrollTo(0, 10500); return false;">
 				<a id="a_E">E</a>
 			</div>
 		</li>
 		<li>
-			<div onclick="">
+			<div onclick="window.scrollTo(0, 14000); return false;">
 				<a id="a_F">F</a>
 			</div>
 		</li>
 		<li>
-			<div onclick="">
+			<div onclick="window.scrollTo(0, 17600); return false;">
 				<a id="a_G">G</a>
 			</div>
 		</li>
 		<li>
-			<div onclick="">
+			<div">
 				<a id="a_I">I</a>
 			</div>
 		</li>
 	</ul>
 </div>
 <div id="sceneA" data-0="opacity:1;top:4%;" data-900="top:4%;" data-1200="top:-100%;">
-
 	<!--Scene A Content-->
 	<div style="width:100%;height:565px; margin-top:15%;">		
 		<img id="logo" src="images/A/logo.png"><br/>
@@ -380,14 +388,14 @@ img.exhibition_photo{
 </div>
 
 <div id="sceneB" data-900="top:100%;" data-1200="top:0%;z-index:-1" data-1400="display:block;z-index:0" data-3400="top:0%;" data-3600="top:-100%;display:none;">
-		
+
 </div>
 
 <div id="sceneC" data-0="display:none;" data-3500="display:block;bottom:-30%" data-5500="bottom:0%" data-6000="display:none;">
 	<div data-3800="bottom:-20%"data-5000="bottom:0%;right:0;margin-bottom:120px;">
 		<img src="images/C/C_a.png">
 	</div>
-	<div data-4200="bottom:-20%" data-5400="bottom:0%; margin-left:10%; margin-bottom:182px;">
+	<div data-4200="bottom:-20%" data-5400="bottom:0%; margin-left:15%; margin-bottom:182px;">
 		<img src="images/C/C_b.png">
 	</div>
 </div>
@@ -410,44 +418,48 @@ img.exhibition_photo{
 	</div>
 </div>
 
-<div id="SceneF" data-0="display:none;" data-14000="display:block;" data-17000="" data-17500="display:none;" style="width:100%; height:100%; background: url('images/F/quote_bg.png')">
-	<div id="SceneF_bg" data-14000="opacity:0;" data-14200="opacity:1;" data-17000="" style="width:100%; height:100%; background: url('images/F/quote_1.png')">
+<div id="sceneF" data-0="display:none;" data-14000="display:block;bottom:-30%" data-14500="bottom:0%" data-17500="display:none;">
+	<div id="SceneF_bg" data-14000="opacity:0;" data-14200="opacity:1;" data-17000="" style="width:100%; height:100%; background: url('images/F/quote_1.png'); background-size:72%; background-repeat:no-repeat;margin-left:10%">
 	</div>
 	<div id="time_display" data-14000="" data-17000=""></div>
-	<div id="news_title" data-14000="top:25%;left:5%" data-500="opacity:1;" data-17000=""></div>
+	<div data-14000="top:19%;left:300px" data-500="opacity:1;" data-17000="">
+		<font id="news_title" style="font-size:30px; font-family: arial;font-weight: bold;"></font>
+	</div>
 </div>
 
-<div id="popular" style="width:100%; height:100%" data-0="display:none" data-17500="display:block;background:rgb(225,225,225);" 
-		data-19500="background:rgb(0,225,225);">
-		<div id="circle" style="width:600px; height:600px; background: url(images/G/G_Circle_bg.png)" data-17500="transform:scale(0.1);top:0%;left:10%;" 
-		data-19500="transform:scale(1);">
-			
+<div id="sceneG" style="width:100%; height:100%" data-0="display:none" data-17500="display:block;background:rgb(197,242,255);" 
+		data-19500="background:rgb(197,242,0);">
+		<div id="circle" style="width:600px; height:600px; background: url(images/G/G_Circle_bg.png)" data-17500="transform:scale(0.2);top:5%;left:20%;" 
+		data-19500="transform:scale(1);">		
 			<img src="images/G/G_Circle_bg.png"/>
-			
-			<div style="width:90%; height:90%; position:absolute; margin-bottom:-100px" data-17500="background:rgb(197,242,255);" data-19500="background:rgb(197,242,0);">
-				
-				<div id="score" data-17500="" data-19500=""></div>
-			</div>
 		</div>
+		<div style="width: 600px;
+			    height: 600px;
+			    -webkit-border-radius: 300px;
+			    -moz-border-radius: 300px;
+			    border-radius: 300px;" data-17500="transform:scale(0.2);background:rgb(225, 225, 225);top:8%;left:22%;" data-19500="transform:scale(1);background:rgb(0,225,225);">
+			<div data-17500="" data-19500="margin-top:100px; margin-left:30px"><font id="score" style="font-family: 'Sintony', sans-serif; color:#FFFFFF; font-size:420px"></font></div>
+		</div>
+
 		<div id="spacer" style="height:20px; background-color:white; margin-top:20%;-webkit-transform: rotate(3deg);"></div>
 
-		<div data-17500="top:35%;left:35%;" data-19500="top:35%;left:55%;"><img src="images/G/G_word.png"></div>
-		
+		<div data-17500="top:15%;left:40%;" data-19500="top:39%;left:60%;"><img src="images/G/G_word.png"></div>	
 </div>
+
 <script type="text/javascript">
 	// TODO adjust the real positions
 	var position = [
-		{'x':5,'y':10},
-		{'x':5,'y':60},
-		{'x':5,'y':70},
-		{'x':55,'y':20},
-		{'x':55,'y':50},
+		{'x':16,'y':48},
+		{'x':16,'y':78},
+		{'x':16,'y':96},
+		{'x':50,'y':56},
+		{'x':50,'y':69},
 	];
 	function append_news(t, x, y, duration) {
-		var div = $('<div class="news" data-' + (t-1) +'="opacity:0" ' + 
+		var div = $('<div data-' + (t-1) +'="opacity:0" ' + 
                 'data-' + t + '="opacity:1;left:' + x +'%;top:'+ y +'%;" ' + 
-                'data-' + duration + '="" ></div>');
-       	div.appendTo('#SceneF');
+                'data-' + duration + '="" ><font class="news" style="font-size:16px; font-family: arial;font-weight: bold;"></font></div>');
+       	div.appendTo('#sceneF');
 	}
 	var MAX_NEWS_NUM = 5;
 	var json_news;
@@ -458,7 +470,7 @@ img.exhibition_photo{
     var news_gap = 0;
     function generate_news(json) {
     	news_gap = news_anim_duration / get_max_text_size(json);
-    	title = '國家地理頻道'; // TODO replace the real data
+    	title = '國家地理125年經典影像大展'; // TODO replace the real data
     	title_gap = title_animation_duration / title.length
         var duration = 3500;
         var base_time = 14000;

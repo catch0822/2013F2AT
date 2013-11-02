@@ -199,7 +199,7 @@ h4 {
 
 ul#nav {
 	position : fixed;
-	left     : 5%;
+	left     : 2%;
 	top      : 20%;
 	z-index  : 999;
 }
@@ -260,4 +260,56 @@ ul#nav a#a_G:hover {
 }
 ul#nav a#a_I:hover {
 	background : url('../images/icons/I_infomation_open.png') 0 100% no-repeat;
+}
+
+img.exhibition{
+	width:295px;
+	height:240px;
+}
+
+img#exhibition_0:hover{
+	background:url('../images/B/box/125_box_mouse over.png') 0 100% no-repeat;
+	background-size:100%;
+	z-index:1000;
+}
+
+img#exhibition_1:hover{
+	background:url('../images/B/box/chefinstyle_mouse over.png') no-repeat;
+	background-size:100%;
+}
+
+img#exhibition_2:hover{
+	background:url('../images/B/box/digitalair_mouse over.png') no-repeat;
+	background-size:100%;
+}
+
+img#exhibition_3:hover{
+	background:url('../images/B/box/gwangdean_mouse over.png') no-repeat;
+	background-size:100%;
+}
+
+img#exhibition_4:hover{
+	background:url('../images/B/box/hlaf_mouse over.png') no-repeat;
+	background-size:100%;
+}
+
+img#exhibition_5:hover{
+	background:url('../images/B/box/julia_mouse over.png') no-repeat;
+	background-size:100%;
+}
+
+img#exhibition_6:hover{
+	background:url('../images/B/box/Leonardo_mouse over.png') no-repeat;
+	background-size:100%;
+}
+
+img#exhibition_7:hover{
+	background:url('../images/B/box/ling_mouse over.png') no-repeat;
+	background-size:100%;
+}
+
+img#exhibition_8:hover{
+	background:url('../images/B/box/ZHANG_mouse over.png') no-repeat;
+	background-size:100%;
+	z-index:500;
 }
