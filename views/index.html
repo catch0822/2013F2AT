@@ -10,6 +10,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>	
 <script type="text/javascript" src="js/side-nav.js"></script>	
 <script type="text/javascript" src="js/skrollr.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Sintony' rel='stylesheet' type='text/css'>
 
 	<!--[if lt IE 9]>
 	<script type="text/javascript" src="js/skrollr.ie.min.js"></script>
@@ -65,8 +66,9 @@ function handleSessionResponse() {
   });
 }
 
+var font_sceneD_peoples= "228";
 $( document ).ready(function() {
-   // init_sceneC();
+   	$("#font_sceneD_peoples").html(font_sceneD_peoples);
 	var num_x = 3;
 	var num_y = 3;
     var num = num_x * num_y;
@@ -298,8 +300,6 @@ img.exhibition_photo{
 	margin: 22px 0 5px 0;
 	position: relative;	
 }
-
-div{ word-wrap: break-word; word-break: normal; }
 </style>
 
 </head>
@@ -307,7 +307,7 @@ div{ word-wrap: break-word; word-break: normal; }
 
 <header role="banner">
 	<div data-0="display:none;" data-1200="display:block;" style="width:100%">	
-		<a href="#"><img src="images/icons/air.png"/></a>
+		<a href="#"><img src="images/icons/art.png"/></a>
 	</div>
 </header>
 
@@ -379,20 +379,23 @@ div{ word-wrap: break-word; word-break: normal; }
 		
 </div>
 
-<div id="sceneC" data-3200="top:100%;" data-3400="top:0%;" data-3500="display:block;" data-7600="top:0%;" data-8000="top:-100%;display:none;">  
+<div id="sceneC" data-3200="top:100%;" data-3400="top:0%;" data-3500="display:block;" data-6400="top:0%;"data-6500="bottom:50%;" data-6800="top:-100%;display:none;">  
         
-        <div class="drop" data-0="transform:scale(1)" data-6500="transform:scale(1)" data-6600="transform:scale(12)" style="position:absolute; left:45%; top:42%;">
+        <div class="drop" data-0="transform:scale(1); left:45%; top:42%;" data-6500="transform:scale(1);" data-6800="transform:scale(12);bottom:100%" style="position:absolute;">
             <img src="images/D/bg_s.png"/>
         </div>
         <!-- Footprints path -->
         
         <!--End Footprints path-->
-        <div class="drop" data-0="display:none;" data-4800="display:block;bottom:-20%" data-5200="bottom:0%" data-6800="bottom:0%" style="position: absolute; right: 5px; bottom: 5px">
+        <div class="drop" data-0="display:none;" data-4800="display:block;bottom:-20%" data-5200="bottom:0%" style="position: absolute; right: 5px; bottom: 5px">
              <img src="images/D/other_people.png"/>
         </div>
+        <div data-0="display:none;" data-5300="display:block;bottom:-180px" data-5600=" right:70px; bottom:60px" style="position: absolute;">
+	        <font id="font_sceneD_peoples" style="font-family: 'Sintony', sans-serif; color:#FFFFFF; font-size:100px"></font>
+   		</div>
 </div>
 
-<div id="sceneE" data-7600="top:100%;" data-7800="top:0%;" data-7900="display:block;" data-12000="top:0%;" data-12200="top:-100%;display:none;"> 
+<div id="sceneE" data-0="display:none;" data-6900="display:block;" data-12000="top:0%;" data-12200="top:-100%;display:none;"> 
 	<div id="sceneE_photo_gallery" style="margin:0 auto;width:80%; height:80%">
 
 
