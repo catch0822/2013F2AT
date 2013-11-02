@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>F2AT - 2013 Yahoo Hack Day</title>
+    <link href="css/fixed-positioning.css" rel="stylesheet" type="text/css" />
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="map3d" data-0="" data-3000="" style="height: 100%; width: 95%;"></div>
+    <div id="progress" data-0="width:0%;background:hsl(200, 100%, 50%);" data-end="width:100%;background:hsl(920, 100%, 50%);"></div>
+
+    <div id="scrollbar" data-0="top:0%;margin-top:2px;" data-end="top:100%;margin-top:-52px;"></div>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/skrollr.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="dist/skrollr.ie.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="js/fake_data.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    </script>
+    <script type="text/javascript">
+    var s = skrollr.init({ edgeStrategy: 'set'});
+    var ge;
+    function initialize() {
+        $.getJSON("js/fake_location.json", function(json) {
+            var geo = json;
+            var lat = geo.main.latitude;
+            var lon = geo.main.longitude;
+            ge.getFeatures().appendChild(createMarker(geo.main.title, lat, lon));
+            changeLookAt(lat, lon);
+            var s = skrollr.init({ edgeStrategy: 'set' });
+        });
+    }
+    var scores = [
+        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
+        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
+        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
+        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
+        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
+    ];
+
+    function setScore(score) {
+        // TODO clear markers
+        var idx;
+        if (score <= 20) {
+            idx = 0;
+        } else if (score <= 40) {
+            idx = 1;
+        } else if (score <= 60) {
+            idx = 2;
+        } else if (score <= 80) {
+            idx = 3;
+        } else {
+            idx = 4;
+        }
+        var r = scores[idx];
+        ge.getFeatures().appendChild(createMarker(r.p1.lat, r.p1.lon));
+        ge.getFeatures().appendChild(createMarker(r.p2.lat, r.p2.lon));
+        changeLookAt(lat, lon);
+    }
+    function createMarker(title, lat, lon) {
+        var pmk = ge.createPlacemark('');
+        pmk.setDescription(title);
+        var point = ge.createPoint('');
+        point.setLatitude(lat);
+        point.setLongitude(lon);
+        pmk.setGeometry(point);
+        return pmk;
+    }
+    // Change the camera 
+    function changeLookAt(lat, lon){
+        // Move the camera. (set the map center)
+        var la = ge.createLookAt('');
+        la.set(39, 1000, 4000000, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 0, 99.99);
+        la.setLatitude(lat);
+        la.setLongitude(lon);
+        ge.getView().setAbstractView(la);
+    }
+
+    google.load("earth", "1", {"other_params":"sensor=false"});
+    function init() {
+        google.earth.createInstance('map3d', initCB, failureCB);
+    }
+
+    function initCB(instance) {
+        ge = instance;
+        ge.getWindow().setVisibility(true);
+        initialize();
+    }
+
+    function failureCB(errorCode) { }
+    google.setOnLoadCallback(init);
+    </script>
+</body>
+
+</html>

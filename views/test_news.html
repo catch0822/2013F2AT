@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>F2AT - 2013 Yahoo Hack Day</title>
+	<link href="css/fixed-positioning.css" rel="stylesheet" type="text/css" />
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="time_display" data-0="" data-3000=""></div>
+	<div id="progress" data-0="width:0%;background:hsl(200, 100%, 50%);" data-end="width:100%;background:hsl(920, 100%, 50%);"></div>
+
+	<div id="scrollbar" data-0="top:0%;margin-top:2px;" data-end="top:100%;margin-top:-52px;"></div>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/skrollr.min.js"></script>
+
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="dist/skrollr.ie.min.js"></script>
+	<![endif]-->
+	<script type="text/javascript" src="js/fake_data.js"></script>
+	<script type="text/javascript">
+    function generate_news(json) {
+        var duration = 3000;
+        var range = 1000;
+        var num_y = 3;
+        var num_x = 3;
+        var num = num_x * num_y;
+        var interval = Math.floor(duration / num);
+        var gap_y = 100 / num_y;
+        var gap_x = 100 / num_x;
+        for (var i in json) {
+            var t1 = interval * i;
+            var t2 = t1 + interval;
+            var x = (i % num_x) * gap_x;
+            var y = Math.floor(i / num_x) * gap_y;
+            var r = (Math.random()>=0.5) ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 10) * -1;
+            var imgIdx = Math.floor(Math.random() * images.length);
+            var div = $('<div ' + 
+                'data-' + t1 + '="transform:scale(0);" ' + 
+                'data-' + t2 + '="transform:scale(1);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '="">' + json[i].title + '</div>');
+            div.appendTo('body');	
+        }
+    }
+    function update_news_time() {
+        var d = new Date(); 
+        var datetime = d.getDate() + "/"
+                + (d.getMonth()+1)  + "/" 
+                + d.getFullYear() + " @ "  
+                + d.getHours() + ":"  
+                + d.getMinutes() + ":" 
+                + d.getSeconds() + ":"
+                + d.getMilliseconds();
+        $('#time_display').html(datetime);
+    }
+
+    window.setInterval(function(){update_news_time()}, 100);
+    $.getJSON("js/test_news.json", function(json) {
+        generate_news(json);
+        var s = skrollr.init({
+            edgeStrategy: 'set'
+        });
+    });
+	</script>
+</body>
+
+</html>

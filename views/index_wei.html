@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<!--viewport goodness http://enva.to/A79s3G-->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>2013 Yahoo Hack Day</title>
+    <meta http-equiv="content-type" content="image/jpeg; charset=UTF-8">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>	
+	<script type="text/javascript" src="js/side-nav.js"></script>	
+	<script type="text/javascript" src="js/skrollr.js"></script>	
+	<link rel="stylesheet" href="css/styles.css">
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+<style>
+	#center {
+		background:#f9f9f9;
+		background:rgba(240,240,240,.7);
+		width:90%;
+		padding:1em;
+		margin:1em auto;
+		border:1px solid #bbb;
+	}
+
+#sceneB {
+    width:100%;
+    height:100%;
+    text-align: center;
+    background-image:url('images/B/bg.jpg');
+    background-size:100%;
+    background-repeat:no-repeat;
+}
+
+.exhibition { 
+    float: left;
+    margin-top: 30px;
+    margin-left: 100px;
+    overflow: hidden;
+    position: relative;
+}
+
+#sceneE {
+	width:100%;
+	height:100%;
+	padding-top:1%;
+	padding-left:8%;
+	padding-right:2%;
+	/*position:fixed;
+	z-index:120;*/
+    background-image:url('images/E/bg.png');
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+a#facebook_login, input#go {
+cursor: pointer;
+}
+
+</style>
+
+<script src="http://isotope.metafizzy.co//jquery.isotope.min.js"></script>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script>
+ // initialize the library with the API key
+          FB.init({ appId:'1383684991869529' });
+
+          // fetch the status on load
+          FB.getLoginStatus(handleSessionResponse);
+
+          function facebook_login(){
+          	FB.login(handleSessionResponse, { scope: "email" });	
+          }
+
+          function facebook_logout(){
+          	 FB.logout(handleSessionResponse);
+          }
+
+          // handle a session response from any of the auth related calls
+          function handleSessionResponse() {
+              FB.api('/me', function(response) {
+                  console.log(response);
+                 /* $('#user-info').html(response.id + ' - ' + response.name);*/
+              });
+              FB.Event.subscribe("auth.logout", function() {
+			       window.location = '/'
+			     });
+
+              FB.getLoginStatus(function (response) {
+                  if (response.status === "connected") {
+					$("#facebook_login").hide();
+                  	$("#log-in_ok").show();
+                  	$('#facebook_logout').show();
+                  	window.scrollTo(0, 172);
+
+                    /*   var uid = response.authResponse.userID;
+                      var accessToken = response.authResponse.accessToken;  
+                      var tokenInfo = {'uid':uid, 'accessToken':accessToken};
+                      $.ajax({
+                        type: 'POST',
+                        data:{
+                          tokenInfo:tokenInfo
+                        },
+                        url: '/auth/fbLogin',            
+                        success: function(data) {
+                          console.log('success');
+                          console.log(JSON.stringify(data));
+                        }
+                      });*/
+
+                  } else if (response.status === "not_authorized") {
+                      
+                  } else {  
+                    
+                  }
+              });
+          }
+
+function national_125() {
+     $.ajax({
+        type: 'POST',
+        data:{
+          fileName:"flickr_geo.json"
+        },
+        url: '/flickr/readFile',            
+        success: function(res) {
+            var flickr = {};
+            flickr.categories = 'private public'.split(' ');
+            flickr.getRandom = function( property ) {
+              var values = flickr[ property ];
+              return values[ Math.floor( Math.random() * values.length ) ];
+            };
+            for(var i=0; i<20 ; i++){
+                category = flickr.getRandom('categories');
+                 className = 'element fake metal ' + category;
+                var $container = $('#container');
+                var $newEls = $( '<div class="' + className + '"><img src="'+res.imgUrl[i]+'" style="width:240px;height:180px; margin-top:12px; margin-left:20px;"/></div>' );
+                $container.isotope( 'insert', $newEls );
+            }
+
+        //  alert(res.imgUrl[0]
+        }
+      });
+}
+
+
+$(window).scroll(function(){
+    var s = $('body').scrollTop();
+    var pink_dot="<a href=\"/\" style=\"background : url('css/images/grey-pink-dot.png') 0 100% no-repeat;\">Home</a>";
+    var grey_dot="<a href=\"/\">Home</a>"
+
+    if( s >= 0 && s < 860){ //scene A
+        $("#div_scene1").html(pink_dot);
+        $("#div_sceneB").html(grey_dot);
+        $("#div_sceneE").html(grey_dot);
+    }
+    else if (s >= 860 && s < 1750){ //scene B
+        $("#div_scene1").html(grey_dot);
+        $("#div_sceneB").html(pink_dot);
+        $("#div_sceneE").html(grey_dot);
+    }
+    else if (s >= 1750 && s < 2600){ //scene C
+        $("#div_scene1").html(grey_dot);
+        $("#div_sceneB").html(grey_dot);
+        $("#div_sceneE").html(pink_dot);
+    }
+
+    if(s > 550){ //show sceneB row1
+        $('#B_row_1').fadeIn('slow');
+        $( "#B_row_1" ).animate({
+            opacity: 1,
+            left: "-=100",
+            height: "swing"
+          }, 1000, function() {
+          });
+    }
+    if(s < 500){
+        $("#B_row_1").hide();
+    }
+
+    if(s > 700){ //show sceneB row2
+        $('#B_row_2').fadeIn('slow');
+        $( "#B_row_2" ).animate({
+            opacity: 1,
+            left: "-=100",
+            height: "swing"
+          }, 1000, function() {
+          });
+    }
+    if(s < 650){
+        $("#B_row_2").hide();
+    }
+
+    if(s > 850){ //show sceneB row3
+        $('#B_row_3').fadeIn('slow');
+        $( "#B_row_3" ).animate({
+            opacity: 1,
+            left: "-=100",
+            height: "swing"
+          }, 1000, function() {
+          });
+    }
+    if(s < 800){
+        $("#B_row_3").hide();
+    }
+   
+    console.log(s+"scrolling");
+});
+</script>
+</head>
+
+<body>
+
+	<div data-0="background-position:0px 0px;" data-end="background-position:-500px -10000px;">
+	<div style="text-align:right">
+		<input type="image" id="top_fb" src="images/A/top_fb.png"/>
+		<input type="image" id="top_Tweets" src="images/A/top_Tweets.png"/>
+		<input type="image" id="facebook_logout" src="images/log-out.png" style="display:none" onclick="facebook_logout()"/>
+
+	</div>
+
+	<header class="band" data-0="background-position:0px 0px;" data-50="background-position:0px -100px;" style="height:820px;">
+	
+		<div class="container">
+
+		<ul id="nav">
+			<li>
+				<h1 style="display: none; opacity: 0; left: 15px;">
+					<span>Home</span>
+				</h1>
+				<div id="div_scene1" onclick="window.scrollTo(0, 0); return false;"><a>Home</a></div>
+			</li>
+			<li>
+				<h1 style="display: none; opacity: 0; left: 15px;">
+					<span>SceneB</span>
+				</h1>
+				<div id="div_sceneB" onclick="window.scrollTo(0, 860); return false;"><a>SceneB</a></div>
+			</li>
+			<li>
+				<h1 style="display: none; opacity: 0; left: 15px;">
+					<span>sceneE</span>
+				</h1>
+				<div id="div_sceneE" onclick="window.scrollTo(0, 2000); return false;"><a>sceneE</a></div>
+			</li>
+		</ul>
+
+			<div class="columns sixteen" data-0="opacity: 1" data-800="opacity: 0">		
+				<h1><img id="藝" src="images/A/logo.png"></h1>
+ 				<input type="image" id="facebook_login" src="images/A/log-in.png" onclick="facebook_login()"/>
+ 				<img id="log-in_ok" src="images/A/log-in_ok.png" style="display:none"/>
+			</div>
+		</div>
+		<div id="space" style="height:250px"></div>
+		<div class="columns sixteen">		
+			<div data-0="transform:rotate(0deg);transform-origin:center;" data-350="transform:rotate(180deg);">
+                <img src="images/A/play.png" style="z-index:100;"> 
+            </div>
+            <div data-0="background-position:0px 0px;opacity: 0" data-350="opacity: 1" data-900="opacity: 0.3">
+                <img src="images/B/Triangle.png" style="z-index:100;"> 
+            </div>
+            <!-- TODO: added Triangle-->
+
+		</div>
+	</header>
+	</div>
+
+	<!--<div id="sceneB" class="columns" data-500="opacity: 0.2" data-850="opacity: 1">-->
+        <div id="sceneB" class="columns">
+            <div id="B_row_1" style="margin-left:80px; display:none;"><br/> <br/>
+                <div class="exhibition">
+                    <img src="images/B/123_box.png" style="top:10px; left:10px;">
+                    <input type="image" id="go" src="images/B/go.png" onclick="national_125()" style="position:absolute; bottom:20px; right:30px; z-index:101;"/>
+                </div>
+                <div class="exhibition">
+                    <img src="images/B/box.png">
+                </div>
+                <div class="exhibition">
+                    <img src="images/B/box.png">
+                </div>
+            </div>
+
+            <div id="B_row_2" style="margin-left:290px; display:none;">
+                <div class="exhibition">
+                    <img src="images/B/box.png">
+                </div>
+                <div class="exhibition">
+                    <img src="images/B/box.png">
+                </div>
+                <div class="exhibition">
+                    <img src="images/B/box.png">
+                </div>
+            </div>
+
+            <div id="B_row_3" style="margin-left:80px; display:none;">
+                <div class="exhibition">
+                    <img src="images/B/box.png">
+                </div>
+                <div class="exhibition">
+                    <img src="images/B/box.png">
+                </div>
+                <div class="exhibition">
+                    <img src="images/B/box.png">
+                </div>
+            </div>
+        </div>
+
+		<input type="image" id="go" src="images/B/go.png" style="position:relative;left:-605px;top:200px" onclick="national_125()"/>
+	</div>	
+
+
+<!--<div id="sceneE" data-850="top:100%;" data-2000="top:0%;" data-3500="display:block;" data-5000="top:-100%;display:none;">-->
+    <div id="sceneE" style="display:none;">
+        <div id="container" class="clearfix">
+            
+        </div>
+	</div>
+
+
+<br/>
+
+	<div class="band main">
+	
+		<div class="container">
+			<h2>About Us</h2>
+			<hr>
+			
+			<div class="columns six offset-by-two">
+			
+				<h3>Prada</h3>
+				<img src="images/prada.jpg" height="120" width="120">
+				<p></p>
+			
+			</div>
+		
+			<div class="columns six">
+			
+				<h3>Wei</h3>
+				<img src="images/wei.jpg" height="120" width="120">
+				<p></p>
+			
+			</div>
+
+			<div class="columns six offset-by-two">
+			
+				<h3>Amber</h3>
+				<img src="images/amber.jpg" height="120" width="120">
+				<p></p>
+			
+			</div>
+
+			<div class="columns six">
+			
+				<h3>Tobey</h3>
+				<img src="images/tobey.jpg" height="120" width="120">
+				<p></p>
+			
+			</div>
+
+		</div>
+	
+	</div>
+
+	<div id="skrollr-body" >
+
+		<div id="center">
+			<h1>Summary</h1>
+			<p>Slogan................</p>
+			<hr />
+			<p>
+				iCulture iCulture iCulture iCulture iCulture iCulture
+			</p>
+
+		</div>
+	</div>
+
+
+	<footer class="band main">
+	
+		<hr>
+	
+		<div class="container">
+			
+			<div class="columns eight">			
+				
+				<p>Copyright &copy; F2AT 2013</p>
+			
+			</div>
+		
+			<div class="columns eight last">
+			
+				<p><a class="social-facebook" href="#">Facebook</a></p>
+			
+			</div>
+
+		</div>
+	
+	</footer>
+
+	<script type="text/javascript">
+	skrollr.init({
+		forceHeight: false
+	});
+	</script>
+
+  <script>
+    $(function(){
+        $( "#go" ).mousedown(function() {
+             document.getElementById("go").src = "images/B/go_2.png";
+        });
+         $( "#go" ).mouseup(function() {
+            document.getElementById("go").src = "images/B/go.png";  
+            $("#sceneE").show();
+            window.scrollTo(0, 2000);
+        });
+ /*     
+      $('#insert a').click(function(){
+        var $newEls = $( '<div class="element public metal"><div>WWWEEEIII</div></div>' );
+        $container.isotope( 'insert', $newEls );
+
+        return false;
+      });
+
+      $('#append a').click(function(){
+        var $newEls = $('<div class="element private metal"><div>WWWEEEIII</div></div>'  );
+        $container.append( $newEls ).isotope( 'appended', $newEls );
+
+        return false;
+      });
+
+
+      $('#prepend a').click(function(){
+        var $newEls = $( '<div class="' + className+'"><div>WWWEEEIII</div>   </div>'  );
+        $container
+          .prepend( $newEls ).isotope('reloadItems').isotope({ sortBy: 'original-order' })
+          // set sort back to symbol for inserting
+          .isotope('option', { sortBy: 'symbol' });
+
+        return false;
+      });
+*/
+var $container = $('#container');
+    $container.isotope({
+        itemSelector : '.element',
+        filter: '*',
+        getSortData : {
+          symbol : function( $elem ) {
+            return $elem.attr('data-symbol');
+          }
+        },
+        sortBy : 'symbol'
+        });
+    });
+  </script>
+	
+</body>
+
+</html>

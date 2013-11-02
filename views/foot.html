@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<title>F2AT - 2013 Yahoo Hack Day</title>
+
+	<link href="css/fixed-positioning.css" rel="stylesheet" type="text/css" />
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div id="bg1" data-0="background-position:0px 0px;" data-end="background-position:-500px -10000px;"></div>
+	<div id="bg2" data-0="background-position:0px 0px;" data-end="background-position:-500px -8000px;"></div>
+	<div id="bg3" data-0="background-position:0px 0px;" data-end="background-position:-500px -6000px;"></div>
+
+	<div id="progress" data-0="width:0%;background:hsl(200, 100%, 50%);" data-end="width:100%;background:hsl(920, 100%, 50%);"></div>
+
+	<div id="scrollbar" data-0="top:0%;margin-top:2px;" data-end="top:100%;margin-top:-52px;"></div>
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/skrollr.min.js"></script>
+
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="dist/skrollr.ie.min.js"></script>
+	<![endif]-->
+
+	<script type="text/javascript">
+	var start_time = 0;
+	var total_time = 10000;
+    var num = Math.floor(Math.random() * 100);
+    var interval = Math.floor((total_time - start_time) / num);
+    var num_x = 20;
+    var num_y = num / num_x;
+    var gap_x = 100 / num_x;
+    var gap_y = 100 / num_y;
+	for (var i = 0 ; i < num ; i ++) {
+		var t1 = i * interval;
+		var t2 = (i + 1) * interval;
+ 		var x = (i % num_x) * gap_x;
+		var y = Math.floor((i / num_x)) * gap_y;
+		var div = $('<div class="drop" ' + 
+            'data-' + t1 +'="transform:scale(0) rotate(0deg);" ' + 
+            'data-' + t2 + '="transform:scale(1) rotate(1440deg);opacity:1;left:' + x + '%;top:' + y + '%;" />');
+		div.html('#' + i);
+		div.appendTo('body');
+	}
+
+	var s = skrollr.init({
+		edgeStrategy: 'set',
+		easing: {
+			WTF: Math.random,
+			inverted: function(p) { return 1-p; }
+		}
+	});
+	</script>
+</body>
+
+</html>

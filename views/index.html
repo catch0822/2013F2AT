@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>F2AT's 2013 Yahoo Hack Day</title>
+	<link href="css/fixed-positioning.css" rel="stylesheet" type="text/css" />
+	<link href="css/main.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>	
+<script type="text/javascript" src="js/side-nav.js"></script>	
+<script type="text/javascript" src="js/skrollr.min.js"></script>
+
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="js/skrollr.ie.min.js"></script>
+	<![endif]-->
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script>
+ // initialize the library with the API key
+FB.init({ appId:'1383684991869529' });
+// fetch the status on load
+FB.getLoginStatus(handleSessionResponse);
+function facebook_login(){
+	FB.login(handleSessionResponse, { scope: "email" });	
+}
+function facebook_logout(){
+	 FB.logout(handleSessionResponse);
+}
+// handle a session response from any of the auth related calls
+function handleSessionResponse() {
+  FB.api('/me', function(response) {
+      console.log(response);
+     /* $('#user-info').html(response.id + ' - ' + response.name);*/
+  });
+  FB.Event.subscribe("auth.logout", function() {
+       window.location = '/'
+     });
+
+  FB.getLoginStatus(function (response) {
+      if (response.status === "connected") {
+		$("#facebook_login").hide();
+      	$("#log-in_ok").show();
+      	$('#facebook_logout').show();
+      	window.scrollTo(0, 400);
+
+        /*   var uid = response.authResponse.userID;
+          var accessToken = response.authResponse.accessToken;  
+          var tokenInfo = {'uid':uid, 'accessToken':accessToken};
+          $.ajax({
+            type: 'POST',
+            data:{
+              tokenInfo:tokenInfo
+            },
+            url: '/auth/fbLogin',            
+            success: function(data) {
+              console.log('success');
+              console.log(JSON.stringify(data));
+            }
+          });*/
+      } else if (response.status === "not_authorized") {
+          
+      } else {  
+        
+      }
+  });
+}
+
+// function init_sceneC(){
+//     var init_t1 =3700;
+//     var init_t2 =4000;
+//     var init_x = 5;
+//     var init_y = 1;
+//     var num=30;
+//     var total_length = 300*num;
+//     var interval = Math.floor((total_length) / num);
+//     var duration = 3000;
+//     for (var i = 0 ; i < 1 ; i ++) {
+//         var t1 = i * interval;
+//         var t2 = (i + 1) * interval;
+//         var x= init_x;
+//         var y= init_y;
+
+//          div.appendTo('#sceneC');
+//     }
+// }
+
+$( document ).ready(function() {
+   // init_sceneC();
+	var num_x = 3;
+	var num_y = 3;
+    var num = num_x * num_y;
+    var init_x = 12;
+    var init_y = 1;
+    var init_t1 =1200;
+ 	var init_t2 =1500;
+   // <div class="drop" data-6500="left:15%;bottom:100%;" data-9500="bottom:0%;">linear</div>
+   var action_order=[6, 7, 8, 5, 4, 3, 0, 1, 2];
+
+ 	for (var q = 0 ; q < num ; q ++) {
+ 		i=action_order[q]
+ 		t1 =init_t1+150*q;
+ 		t2 =init_t2+150*q;
+ 		var x, y;
+ 		if(i % 3 ==1){
+ 			x= init_x + 25;
+ 		}
+ 		else if(i % 3 == 2){
+ 			x= init_x + 50;
+ 		}else{
+ 			x= init_x; 
+ 		}
+
+ 		if(i < 3){
+ 			y= init_y; 
+ 		}else if( i >= 3 && i < 6){
+ 			x += 12;
+ 			y= init_y+30;
+ 		}else{
+ 			y= init_y+60;
+ 		}
+
+ 		duration = 3000;
+ 		random_deg = Math.floor((Math.random()*90)+1);
+        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img src=\"images/B/123_box.png\"></div>');
+         div.appendTo('#sceneB');
+
+        // TODO: modified hard code 
+        if(i==0){
+        	var button = $('<div class="drop" data-1700="transform:scale(0) rotate(90deg);" data-3000="transform:scale(1) rotate(0deg);opacity:1;"><input type="image" id="go" src="images/B/go.png" style="position:absolute; top:250px; left:445px; z-index:101;"/></div>');
+        	button.appendTo('#sceneB');
+        }
+ 	}
+
+
+ 	//init scene E
+ 	$.ajax({
+ 		async:false,
+		type: 'POST',
+		data:{
+		  fileName:"flickr_geo.json"
+		},
+		url: '/flickr/readFile',            
+		success: function(res) {
+			// <div class="public" data-8000="transform:scale(0) rotate(90deg);" data-8200="transform:scale(1) rotate(0deg);" >
+			// 	<img class="exhibition_photo" src="https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg"/>
+			// </div>
+			// <div class="private" data-8000="transform:scale(0) rotate(90deg);" data-8200="transform:scale(1) rotate(0deg); left:40%" >
+			// 	<img class="exhibition_photo" src="https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg"/>
+			// </div>
+			init_t1= 8000;
+			init_t2= 8200;
+			var duration= 3000;
+
+		    var flickr = {};
+		    flickr.categories = 'private public'.split(' ');
+		    flickr.getRandom = function( property ) {
+		      var values = flickr[ property ];
+		      return values[ Math.floor( Math.random() * values.length ) ];
+		    };
+		    var row_1_x = [12, 32, 52, 72]
+		    var row_1_y = [2, 2, 2, 2]
+		    var row_2_x = [10, 30, 50, 70]
+		    var row_2_y = [26, 26, 26, 26]
+		    var row_3_x = [12, 32, 52, 72]
+		    var row_3_y = [50, 50, 50, 50]
+		    var row_4_x = [12, 52]
+		    var row_4_y = [74, 74]
+
+		    for(var i=0; i<14 ; i++){
+		    	t1 =init_t1+150*i;
+ 				t2 =init_t2+150*i;
+ 				var x, y;
+ 				if(i >= 4 && i<8){
+ 					x=row_2_x[i-4];	
+ 					y=row_2_y[i-4];	
+ 				}
+ 				else if(i >= 8 && i<12){
+ 					x=row_3_x[i-8];	
+ 					y=row_3_y[i-8];	
+ 				}
+ 				else if(i >= 12 && i<14){
+ 					x=row_4_x[i-12];	
+ 					y=row_4_y[i-12];	
+ 				}
+ 				else{
+ 					x=row_1_x[i];	
+ 					y=row_1_y[i];	
+ 				}
+		        className = flickr.getRandom('categories');
+		        var div= $(' <div class="'+className+'"' + 'data-' + t1 + '="transform:scale(0) rotate(90deg);opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[i]+'"/></div>');
+				div.appendTo('#sceneE_photo_gallery');
+		    }
+		//  alert(res.imgUrl[0]
+		}
+	});
+
+  	var s = skrollr.init({
+		edgeStrategy: 'set'
+	});
+    play_next_loop();
+    //TODO: modified to real UI
+
+});
+
+function play_next_loop() {
+    $("#play_next").animate({opacity: 1.0}, {duration: 350})
+        .animate({opacity: 0}, {duration: 350})
+        .animate({opacity: 1.0}, {duration: 350, complete: play_next_loop})
+}
+</script>
+<style>
+#sceneA {
+	left:0;
+	width:100%;
+	height:768px;
+	background:url(images/A/bg.jpg);
+	background-size:100%;
+    background-repeat:no-repeat;
+    text-align: center;
+    vertical-align:middle
+}
+
+#sceneB {
+	width:100%;
+	height:100%;
+	background:url(images/B/bg.jpg);
+	background-size:100%;
+    background-repeat:no-repeat;
+    text-align: center;
+    vertical-align:middle;
+}
+
+#sceneC {
+    width:100%;
+    height:100%;
+    background:url(images/D/bg.jpg);
+    background-size:100%;
+    background-repeat:no-repeat;
+    text-align: center;
+    vertical-align:middle;
+}
+
+#sceneE {
+	left:0;
+	width:100%;
+	height:100%;
+	background:url(images/E/bg.png);
+	background-size:100%;
+    background-repeat:no-repeat;
+    text-align: center;
+    vertical-align:middle
+}
+
+div.public {
+	width:280px;
+	height:222px;
+	background:url('../images/E/Frame.png');
+	background-size:100%;
+    float:left;
+}
+div.private {
+	width:280px;
+	height:222px;
+	background-image:url('../images/E/Frame_friend.png');
+	background-size:100%;
+    float:left;
+}
+
+img.exhibition_photo{
+	width:235px;
+	height:160px;
+	margin: 22px 0 5px 0;
+	position: relative;	
+}
+
+div{ word-wrap: break-word; word-break: normal; }
+</style>
+
+</head>
+<body>
+<div style="text-align:right">
+	<input type="image" id="top_fb" src="images/A/top_fb.png"/>
+	<input type="image" id="top_Tweets" src="images/A/top_Tweets.png"/>
+	<input type="image" id="facebook_logout" src="images/log-out.png" style="display:none" onclick="facebook_logout()"/>
+</div>
+<div>
+	<ul id="nav">
+		<li>
+			<div onclick="window.scrollTo(0, 0); return false;">
+				<a id="a_A">A</a>
+			</div>
+		</li>
+		<li>
+			<div onclick="window.scrollTo(0, 1200); return false;">
+				<a id="a_B">B</a>
+			</div>
+		</li>
+		<li>
+			<div onclick="">
+				<a id="a_C">C</a>
+			</div>
+		</li>
+		<li>
+			<div onclick="">
+				<a id="a_E">E</a>
+			</div>
+		</li>
+		<li>
+			<div onclick="">
+				<a id="a_F">F</a>
+			</div>
+		</li>
+		<li>
+			<div onclick="">
+				<a id="a_G">G</a>
+			</div>
+		</li>
+		<li>
+			<div onclick="">
+				<a id="a_I">I</a>
+			</div>
+		</li>
+	</ul>
+</div>
+<div id="sceneA" data-0="opacity:1;top:4%;" data-900="top:4%;" data-1200="top:-100%;">
+
+	<!--Scene A Content-->
+	<div style="width:100%;height:565px; margin-top:15%;">		
+		<img id="logo" src="images/A/logo.png"><br/><br/>
+		<input type="image" id="facebook_login" src="images/A/log-in.png" onclick="facebook_login()"/>
+ 		<img id="log-in_ok" src="images/A/log-in_ok.png" style="display:none"/>
+ 		<div data-0="transform:rotate(0deg);transform-origin:center;" data-350="transform:rotate(180deg);bottom:-3%" style="width:100%">
+            <img src="images/A/play.png"/> 
+        </div>
+	</div>
+    <div data-0="display:none;" data-350="display:block;bottom:-6%" data-850="display:none;" style="width:100%;">
+        <img id="play_next" src="images/A/play_next.png"/> 
+    </div>
+    <div data-0="display:none;" data-750="display:block;opacity:1;bottom:0%" data-900="bottom:-16%" data-1159="margin-top:0px;" data-1200="opacity:0.3;bottom:-30%;" style="width:100%;">
+        <img id="triangle" src="images/B/Triangle.png"/> 
+    </div>
+</div>
+
+<div id="sceneB" data-900="top:100%;" data-1200="top:0%;z-index:-1" data-1400="display:block;z-index:0" data-3400="top:0%;" data-3600="top:-100%;display:none;">
+		
+</div>
+
+<div id="sceneC" data-3200="top:100%;" data-3400="top:0%;" data-3500="display:block;" data-7600="top:0%;" data-8000="top:-100%;display:none;">  
+        
+        <div class="drop" data-0="transform:scale(1)" data-6500="transform:scale(1)" data-6600="transform:scale(12)" style="position:absolute; left:45%; top:42%;">
+            <img src="images/D/bg_s.png"/>
+        </div>
+        <!-- Footprints path -->
+        <div class="drop" data-0="display:none;" data-3500="display:block;opacity:0.2" data-3700="opacity:1; left:46%">
+            <img src="images/D/Footprint.png"/>
+        </div>
+        <div class="drop" data-0="display:none;" data-3700="display:block;opacity:0.2" data-3900="opacity:1; left:47%; top:8%">
+            <img src="images/D/Footprint.png"/>
+        </div>
+        <div class="drop" data-0="display:none;" data-3900="display:block;opacity:0.2" data-4100="opacity:1; left:48%; top:16%">
+            <img src="images/D/Footprint.png"/>
+        </div>
+        <div class="drop" data-0="display:none;" data-4100="display:block;opacity:0.2" data-4300="opacity:1; left:49%; top:24%">
+            <img src="images/D/Footprint.png"/>
+        </div>
+        <div class="drop" data-0="display:none;" data-4300="display:block;opacity:0.2" data-4500="opacity:1; left:51%; top:30%">
+            <img src="images/D/Footprint.png"/>
+        </div>
+        <div class="drop" data-0="display:none;" data-4500="display:block;opacity:0.2" data-4700="opacity:1; left:50%; top:36%">
+            <img src="images/D/Footprint.png"/>
+        </div>
+        <!--End Footprints path-->
+        <div class="drop" data-0="display:none;" data-4800="display:block;bottom:-20%" data-5200="bottom:0%" data-6800="bottom:0%" style="position: absolute; right: 5px; bottom: 5px">
+             <img src="images/D/other_people.png"/>
+        </div>
+</div>
+
+<div id="sceneE" data-7600="top:100%;" data-7800="top:0%;" data-7900="display:block;" data-12000="top:0%;" data-12200="top:-100%;display:none;"> 
+	<div id="sceneE_photo_gallery" style="margin:0 auto;width:80%; height:80%">
+
+
+	</div>
+</div>
+
+<script>
+ $(function(){
+        $( "#go" ).mousedown(function() {
+             document.getElementById("go").src = "images/B/go_2.png";
+        });
+         $( "#go" ).mouseup(function() {
+            document.getElementById("go").src = "images/B/go.png";  
+            $("#sceneE").show();
+            window.scrollTo(0, 4000);
+        });
+ });
+ </script>
+</body>
+</html>
