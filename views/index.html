@@ -65,25 +65,6 @@ function handleSessionResponse() {
   });
 }
 
-// function init_sceneC(){
-//     var init_t1 =3700;
-//     var init_t2 =4000;
-//     var init_x = 5;
-//     var init_y = 1;
-//     var num=30;
-//     var total_length = 300*num;
-//     var interval = Math.floor((total_length) / num);
-//     var duration = 3000;
-//     for (var i = 0 ; i < 1 ; i ++) {
-//         var t1 = i * interval;
-//         var t2 = (i + 1) * interval;
-//         var x= init_x;
-//         var y= init_y;
-
-//          div.appendTo('#sceneC');
-//     }
-// }
-
 $( document ).ready(function() {
    // init_sceneC();
 	var num_x = 3;
@@ -194,6 +175,45 @@ $( document ).ready(function() {
 		}
 	});
 
+	function gen4foot(x, y ,t1, t2, addTo) {
+            var div = $('<div ' + 
+                'data-' + t1 + '="transform:scale(1);opacity:0;left:' + x + '%;top:' + y + '%;"' + 
+                'data-' + t2 + '="transform:scale(1);opacity:1;" data-' + duration + '=""><img src="images/D/Footprint.png"/></div>');
+            div.appendTo(addTo);
+            var div = $('<div ' + 
+                'data-' + t1 + '="transform:scale(1) rotate(180deg);opacity:0;left:' + x + '%;bottom:' + y + '%;"' + 
+                'data-' + t2 + '="transform:scale(1) rotate(180deg);opacity:1;" data-' + duration + '=""><img src="images/D/Footprint.png"/></div>');
+            div.appendTo(addTo);
+            var div = $('<div ' + 
+                'data-' + t1 + '="transform:scale(1) rotate(270deg);opacity:0;left:' + y + '%;bottom:' + x + '%;"' + 
+                'data-' + t2 + '="transform:scale(1) rotate(270deg);opacity:1;" data-' + duration + '=""><img src="images/D/Footprint.png"/></div>');
+            div.appendTo(addTo);
+            var div = $('<div ' + 
+                'data-' + t1 + '="transform:scale(1) rotate(90deg);opacity:0;right:' + y + '%;bottom:' + x + '%;"' + 
+                'data-' + t2 + '="transform:scale(1) rotate(90deg);opacity:1;" data-' + duration + '=""><img src="images/D/Footprint.png"/></div>');
+            div.appendTo(addTo);
+	}
+	function add_foot(num) {
+		var duration = 1600;
+		var MAX_FOOT = 10;
+        var baseTime = 3500;
+        var range = 1000;
+        var section_num = Math.floor(num / 4);
+        if (section_num > MAX_FOOT) {
+        	section_num = MAX_FOOT; // limit the foot number.
+        }
+        var interval = Math.floor(duration/section_num);
+		var gap = 50 / section_num;
+        for (var i = 0 ; i < section_num ; i++) {
+            var t1 = interval * i + baseTime;
+            var t2 = t1 + interval;
+            var r = (Math.random()>=0.5) ? Math.floor(Math.random() * 3) : Math.floor(Math.random() * 3) * -1;
+            var x1 = 48 + r;
+            var y1 = gap * i;
+            gen4foot(x1, y1, t1, t2, '#sceneC');
+        }
+	}
+	add_foot(100); // FIXME add real data
   	var s = skrollr.init({
 		edgeStrategy: 'set'
 	});
@@ -351,24 +371,7 @@ div{ word-wrap: break-word; word-break: normal; }
             <img src="images/D/bg_s.png"/>
         </div>
         <!-- Footprints path -->
-        <div class="drop" data-0="display:none;" data-3500="display:block;opacity:0.2" data-3700="opacity:1; left:46%">
-            <img src="images/D/Footprint.png"/>
-        </div>
-        <div class="drop" data-0="display:none;" data-3700="display:block;opacity:0.2" data-3900="opacity:1; left:47%; top:8%">
-            <img src="images/D/Footprint.png"/>
-        </div>
-        <div class="drop" data-0="display:none;" data-3900="display:block;opacity:0.2" data-4100="opacity:1; left:48%; top:16%">
-            <img src="images/D/Footprint.png"/>
-        </div>
-        <div class="drop" data-0="display:none;" data-4100="display:block;opacity:0.2" data-4300="opacity:1; left:49%; top:24%">
-            <img src="images/D/Footprint.png"/>
-        </div>
-        <div class="drop" data-0="display:none;" data-4300="display:block;opacity:0.2" data-4500="opacity:1; left:51%; top:30%">
-            <img src="images/D/Footprint.png"/>
-        </div>
-        <div class="drop" data-0="display:none;" data-4500="display:block;opacity:0.2" data-4700="opacity:1; left:50%; top:36%">
-            <img src="images/D/Footprint.png"/>
-        </div>
+        
         <!--End Footprints path-->
         <div class="drop" data-0="display:none;" data-4800="display:block;bottom:-20%" data-5200="bottom:0%" data-6800="bottom:0%" style="position: absolute; right: 5px; bottom: 5px">
              <img src="images/D/other_people.png"/>
