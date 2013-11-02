@@ -1,0 +1,13 @@
+query news
+	/news/TYPE_ID/ID.json
+
+query page info
+	/facebook/ID.json
+
+query weather
+	/weather/TYPE_ID/ID.json
+
+query suggestion list
+	/list/FACEBOOK_ID.json
+
+In demo case, the TYPE_ID always `99` 

@@ -25,7 +25,7 @@ function facebook_login(){
 	FB.login(handleSessionResponse, { scope: "email" });	
 }
 function facebook_logout(){
-	 FB.logout(handleSessionResponse);
+	FB.logout(handleSessionResponse);
 }
 // handle a session response from any of the auth related calls
 function handleSessionResponse() {
@@ -114,7 +114,7 @@ $( document ).ready(function() {
  		async:false,
 		type: 'POST',
 		data:{
-		  fileName:"flickr_geo.json"
+		  fileName:"flickr_geo.json" // TODO replace the real data
 		},
 		url: '/flickr/readFile',            
 		success: function(res) {
@@ -134,14 +134,14 @@ $( document ).ready(function() {
 		      var values = flickr[ property ];
 		      return values[ Math.floor( Math.random() * values.length ) ];
 		    };
-		    var row_1_x = [12, 32, 52, 72]
-		    var row_1_y = [2, 2, 2, 2]
-		    var row_2_x = [10, 30, 50, 70]
-		    var row_2_y = [26, 26, 26, 26]
-		    var row_3_x = [12, 32, 52, 72]
-		    var row_3_y = [50, 50, 50, 50]
-		    var row_4_x = [12, 52]
-		    var row_4_y = [74, 74]
+		    var row_1_x = [12, 32, 52, 72];
+		    var row_1_y = [2, 2, 2, 2];
+		    var row_2_x = [10, 30, 50, 70];
+		    var row_2_y = [26, 26, 26, 26];
+		    var row_3_x = [12, 32, 52, 72];
+		    var row_3_y = [50, 50, 50, 50];
+		    var row_4_x = [12, 52];
+		    var row_4_y = [74, 74];
 
 		    for(var i=0; i<14 ; i++){
 		    	t1 =init_t1+150*i;
@@ -167,7 +167,6 @@ $( document ).ready(function() {
 		        var div= $(' <div class="'+className+'"' + 'data-' + t1 + '="transform:scale(0) rotate(90deg);opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[i]+'"/></div>');
 				div.appendTo('#sceneE_photo_gallery');
 		    }
-		//  alert(res.imgUrl[0]
 		}
 	});
 
@@ -212,7 +211,6 @@ $( document ).ready(function() {
 	add_foot(100); // FIXME add real data  	
     play_next_loop();
     //TODO: modified to real UI
-
 });
 
 function play_next_loop() {

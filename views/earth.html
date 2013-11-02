@@ -8,10 +8,14 @@
     <link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div id="map3d" data-0="" data-3000="" style="height: 100%; width: 95%;"></div>
-    <div id="progress" data-0="width:0%;background:hsl(200, 100%, 50%);" data-end="width:100%;background:hsl(920, 100%, 50%);"></div>
-
-    <div id="scrollbar" data-0="top:0%;margin-top:2px;" data-end="top:100%;margin-top:-52px;"></div>
+	<div id="SecenH" data-0="" data-3000="" style="width:100%;height:100%;">
+		<div id="bg" style="width:100%;height:100%;background:rgb(89,239,203);" data-0="top:-100%;" data-500="top:0%;"></div>
+		<img data-0="" data-3000="" src="images/H/google earth_word.png"/>
+		<div id="map3d" data-0="display:none;" data-500="display:block;top:200%;" data-1000="top:50%;" style="height:100%; width:100%;"></div>
+		<div id="comment" data-0="top:45%;left:50%;display:none;" data-500="display:block;opacity:0;" data-1000="opacity:1;">HELLO</div>
+		<div id="comment_friends" data-0="top:25%;left:50%;display:none;" data-500="display:block;opacity:0" data-1000="opacity:1;" div-3000=""></div>
+	</div>
+    
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/skrollr.min.js"></script>
 
@@ -20,34 +24,25 @@
     <![endif]-->
     <script type="text/javascript" src="js/fake_data.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    </script>
     <script type="text/javascript">
     var s = skrollr.init({ edgeStrategy: 'set'});
     var ge;
     function initialize() {
-        $.getJSON("js/fake_location.json", function(json) {
-            var geo = json;
-            var lat = geo.main.latitude;
-            var lon = geo.main.longitude;
-            //setScore(Math.random()*100);
-            setScore(69);
-            var s = skrollr.init({ edgeStrategy: 'set' });
-        });
+        //setScore(0);
+        var s = skrollr.init({ edgeStrategy: 'set' });
     }
-    // TODO adjust this args.
     var scores = {
        "lat":25.057111,"lon":121.614302, "title":"Yahoo TW",
        "target":[
-          {"lat":25.057111,"lon":121.614302,"title":"Yahoo TW","zoom":1, "altitude":50, "heading":0, "tilt":0, "range":0},
-          {"lat":22.278053,"lon":114.185225,"title":"Yahoo HK","zoom":1, "altitude":1520000, "heading":0, "tilt":0, "range":0},
-          {"lat":19.112412,"lon":72.860548,"title":"Yahoo Bangkok","zoom":1, "altitude":9520000, "heading":0, "tilt":0, "range":0},
-          {"lat":51.514037,"lon":-0.128441,"title":"Yahoo UK","zoom":1, "altitude":19520000, "heading":0, "tilt":0, "range":0},
-          {"lat":37.416881,"lon":-122.025616,"title":"Yahoo US","zoom":1, "altitude":29520000, "heading":0, "tilt":0, "range":0}
+          {"lat":25.057111,"lon":121.614302,"title":"Yahoo TW","zoom":1, "altitude":50, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO US"},
+          {"lat":22.278053,"lon":114.185225,"title":"Yahoo HK","zoom":1, "altitude":1520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO US"},
+          {"lat":19.112412,"lon":72.860548,"title":"Yahoo Bangkok","zoom":1, "altitude":9520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO US"},
+          {"lat":51.514037,"lon":-0.128441,"title":"Yahoo UK","zoom":1, "altitude":19520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO US"},
+          {"lat":37.416881,"lon":-122.025616,"title":"Yahoo US","zoom":1, "altitude":29520000, "heading":0, "tilt":1000, "range":0, "comment" : "YAHOO US"}
        ]
     }
 
     function setScore(score) {
-        // TODO clear markers
         console.log("score : " + score);
         var idx;
         if (score <= 20) {
@@ -61,11 +56,15 @@
         } else {
             idx = 0;
         }
-        var r = scores.target[idx];
-        ge.getFeatures().appendChild(createMarker(scores.title, scores.lat, scores.lon));
-        ge.getFeatures().appendChild(createMarker(r.title, r.lat, r.lon));
-        createLine(scores.lat, scores.lon, r.lat, r.lon);
-        changeLookAt(scores.lat, scores.lon, r);
+        if (idx != current_idx) {
+            // TODO clear line
+            current_idx = idx;
+            var r = scores.target[idx];
+            ge.getFeatures().appendChild(createMarker(scores.title, scores.lat, scores.lon));
+            ge.getFeatures().appendChild(createMarker(r.title, r.lat, r.lon));
+            createLine(scores.lat, scores.lon, r.lat, r.lon);
+            changeLookAt(scores.lat, scores.lon, r);
+        }
     }
 
     function createLine(lat1, lon1, lat2, lon2) {
@@ -114,7 +113,36 @@
     }
 
     function failureCB(errorCode) { }
+
     google.setOnLoadCallback(init);
+
+    var friend_num = 3; // TODO real data
+    var score = 100;
+    var earth_duration = 1000; // TODO
+    var score_increasing_num = score / 1000; 
+    var base_earth_start_time = 0;
+    var earth_start_time = base_earth_start_time + 1000; // TODO
+    var current_idx = -1 ;
+    
+    set_friend_tag(3);
+    $(window).scroll(function(){
+        var s = $('body').scrollTop();
+        if (s >= earth_start_time && s < earth_start_time + earth_duration) {
+            setScore(((s - earth_start_time) / earth_duration) * score);
+        }
+    });
+    function set_friend_tag(num) { //TOOD update interface
+        var time_gap = Math.floor(earth_duration / num);
+        for(var i = 0 ; i < num ; i++){
+            var t1 = time_gap * i;
+            var t2 = time_gap * (i + 1);
+            var div = $('<div class="friend" style="float:left" ' + 
+                'data-' + base_earth_start_time + '="display:none;"' + 
+                'data-' + t1 + '="display:block;opacity:0;"' + 
+                'data-' + t2 + '="opacity:1;" ><img src="http://profile.ak.fbcdn.net/hprofile-ak-ash2/1117343_627742448_835827200_s.jpg"/></div>');
+            div.appendTo('#comment_friends');
+        }
+    }
     </script>
 </body>
 

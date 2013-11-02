@@ -53,27 +53,27 @@
     }
 
     function generate_news(json) {
-        var duration = 3000;
-        var baseTime = 3500;
-        var range = 1000;
-        var num_y = 3;
-        var num_x = 3;
-        var num = num_x * num_y;
-        var interval = Math.floor(duration / num);
-        var gap_y = 100 / num_y;
-        var gap_x = 100 / num_x;
-        for (var i in json) {
-            var t1 = interval * i + baseTime;
-            var t2 = t1 + interval;
-            var x = (i % num_x) * gap_x;
-            var y = Math.floor(i / num_x) * gap_y;
-            var r = (Math.random()>=0.5) ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 10) * -1;
-            var imgIdx = Math.floor(Math.random() * images.length);
-            var div = $('<div ' + 
-                'data-' + t1 + '="transform:scale(0);" ' + 
-                'data-' + t2 + '="transform:scale(1);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '="">' + json[i].title + '</div>');
-            div.appendTo('#news');	
-        }
+	        var duration = 3000;
+	        var baseTime = 3500;
+	        var range = 1000;
+	        var num_y = 3;
+	        var num_x = 3;
+	        var num = num_x * num_y;
+	        var interval = Math.floor(duration / num);
+	        var gap_y = 100 / num_y;
+	        var gap_x = 100 / num_x;
+	        for (var i in json) {
+	            var t1 = interval * i + baseTime;
+	            var t2 = t1 + interval;
+	            var x = (i % num_x) * gap_x;
+	            var y = Math.floor(i / num_x) * gap_y;
+	            var r = (Math.random()>=0.5) ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 10) * -1;
+	            var imgIdx = Math.floor(Math.random() * images.length);
+	            var div = $('<div ' + 
+	                'data-' + t1 + '="transform:scale(0);" ' + 
+	                'data-' + t2 + '="transform:scale(1);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '="">' + json[i].title + '</div>');
+	            div.appendTo('#news');	
+	        }
     }
     function update_news_time() {
         var d = new Date(); 

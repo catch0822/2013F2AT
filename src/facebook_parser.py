@@ -46,18 +46,16 @@ SELECT message, description, source_id FROM stream WHERE
 
 Photo analysis
 
-SELECT src, caption, owner FROM photo WHERE strpos(caption,"人")>=0 and owner IN (SELECT uid2 FROM friend WHERE uid1=me() limit 10 offset 850)
-
+	SELECT src, caption, owner FROM photo WHERE strpos(caption,"人")>=0 and owner IN (SELECT uid2 FROM friend WHERE uid1=me() limit 10 offset 850)
+	select pid, place_id, caption from photo where owner IN (select uid2 from friend where uid1=me() limit 20 offset 80) and strpos(caption,'Wo') >=0
 Find near places
 
-distance(latitude, longitude, "37.75377496892", "-122.42077080676")
-SELECT distance(latitude,longitude,"37.75377496892", "-122.42077e,author_uid, latitude, longitude,timestamp,page_id,page_type FROM location_post WHERE author_uid IN (SELECT uid2 FROM friend WHERE uid1=me() LIMIT 10)
-
+	SELECT author_uid, latitude, longitude,timestamp,page_id,page_type FROM location_post WHERE distance(latitude,longitude,"37.75377496892", "-122.42077")<3 and author_uid IN (SELECT uid2 FROM friend WHERE uid1=me() LIMIT 10)
 
 
 PAGE information
-SELECT page_id, name, fan_count, description, store_number, talking_about_count, were_here_count, checkins,pic_cover  FROM page WHERE name = "國家地理125年經典影像大展"
-select uid, page_id from page_fan where page_id=372858399503276 and uid in (select uid2 from friend where uid1=me() limit 1000)
+	SELECT page_id, name, fan_count, description, store_number, talking_about_count, were_here_count, checkins,pic_cover  FROM page WHERE name = "國家地理125年經典影像大展"
+	select uid, page_id from page_fan where page_id=372858399503276 and uid in (select uid2 from friend where uid1=me() limit 1000)
 
 
 SELECT name, categories FROM page WHERE page_id IN (SELECT page_id FROM page_fan WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=me() LIMIT 10))
