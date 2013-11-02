@@ -209,10 +209,7 @@ $( document ).ready(function() {
             gen4foot(x1, y1, t1, t2, '#sceneD');
         }
 	}
-	add_foot(100); // FIXME add real data
-  	var s = skrollr.init({
-		edgeStrategy: 'set'
-	});
+	add_foot(100); // FIXME add real data  	
     play_next_loop();
     //TODO: modified to real UI
 
@@ -412,6 +409,128 @@ img.exhibition_photo{
 
 	</div>
 </div>
+
+<div id="SceneF" data-0="display:none;" data-14000="display:block;" data-17000="" data-17500="display:none;" style="width:100%; height:100%; background: url('images/F/quote_bg.png')">
+	<div id="SceneF_bg" data-14000="opacity:0;" data-14200="opacity:1;" data-17000="" style="width:100%; height:100%; background: url('images/F/quote_1.png')">
+	</div>
+	<div id="time_display" data-14000="" data-17000=""></div>
+	<div id="news_title" data-14000="top:25%;left:5%" data-500="opacity:1;" data-17000=""></div>
+</div>
+
+<div id="popular" style="width:100%; height:100%" data-0="display:none" data-17500="display:block;background:rgb(225,225,225);" 
+		data-19500="background:rgb(0,225,225);">
+		<div id="circle" style="width:600px; height:600px; background: url(images/G/G_Circle_bg.png)" data-17500="transform:scale(0.1);top:0%;left:10%;" 
+		data-19500="transform:scale(1);">
+			
+			<img src="images/G/G_Circle_bg.png"/>
+			
+			<div style="width:90%; height:90%; position:absolute; margin-bottom:-100px" data-17500="background:rgb(197,242,255);" data-19500="background:rgb(197,242,0);">
+				
+				<div id="score" data-17500="" data-19500=""></div>
+			</div>
+		</div>
+		<div id="spacer" style="height:20px; background-color:white; margin-top:20%;-webkit-transform: rotate(3deg);"></div>
+
+		<div data-17500="top:35%;left:35%;" data-19500="top:35%;left:55%;"><img src="images/G/G_word.png"></div>
+		
+</div>
+<script type="text/javascript">
+	// TODO adjust the real positions
+	var position = [
+		{'x':5,'y':10},
+		{'x':5,'y':60},
+		{'x':5,'y':70},
+		{'x':55,'y':20},
+		{'x':55,'y':50},
+	];
+	function append_news(t, x, y, duration) {
+		var div = $('<div class="news" data-' + (t-1) +'="opacity:0" ' + 
+                'data-' + t + '="opacity:1;left:' + x +'%;top:'+ y +'%;" ' + 
+                'data-' + duration + '="" ></div>');
+       	div.appendTo('#SceneF');
+	}
+	var MAX_NEWS_NUM = 5;
+	var json_news;
+	var title;
+    var title_animation_duration = 500;
+    var title_gap;
+    var news_anim_duration = 1000;
+    var news_gap = 0;
+    function generate_news(json) {
+    	news_gap = news_anim_duration / get_max_text_size(json);
+    	title = '國家地理頻道'; // TODO replace the real data
+    	title_gap = title_animation_duration / title.length
+        var duration = 3500;
+        var base_time = 14000;
+        var range = 1000;
+        var num_y = 3;
+        var num_x = 3;
+        var num = num_x * num_y;
+        var interval = Math.floor(duration / num);
+        var gap_y = 100 / num_y;
+        var gap_x = 100 / num_x;
+        var max_num = (MAX_NEWS_NUM < json.length) ? MAX_NEWS_NUM : json.length;
+        for (var i=0 ; i < max_num ; i++) {
+            var t = interval * i;
+            var x = position[i].x;
+            var y = position[i].y;
+            append_news(base_time+t, x, y, duration);
+        }
+        json_news = json;
+    }
+
+    function get_max_text_size(json) {
+    	var max = 0;
+    	for(var i in json) {
+    		var s = json[i].title;
+    		if (max < s.length) {
+    			max = s.length;
+    		}
+    	}
+    	return max;
+    }
+
+    function update_news_time() {
+        var d = new Date(); 
+        var datetime = d.getDate() + "/"
+                + (d.getMonth()+1)  + "/" 
+                + d.getFullYear() + " @ "  
+                + d.getHours() + ":"  
+                + d.getMinutes() + ":" 
+                + d.getSeconds() + ":"
+                + d.getMilliseconds();
+        $('#time_display').html(datetime);
+    }
+    // for popular
+    var score = 60; // FIXME replace real data
+    var duration = 2000;
+    var score_interval = Math.round(duration / score);
+    var score_start_time = 17500;
+
+    window.setInterval(function(){update_news_time()}, 100);
+    $.getJSON("js/test_news.json", function(json) {
+        generate_news(json);
+        var s = skrollr.init({ edgeStrategy: 'set' });
+    });
+    
+    $(window).scroll(function(){
+    	var s = $('body').scrollTop();
+    	if( s >= 14200 && s < 15000){
+    		var idx = Math.round((s - 14200) / title_gap);
+    		$('#news_title').html(title.substring(0, idx));
+    	} else if ( s >= 15000 && s < 18500) {
+    		var idx = Math.round((s - 15000) / news_gap);
+    		$('.news').each(function(id) {
+    			var s = json_news[id].title;
+    			$(this).html(s.substring(0, idx));
+    		});
+    	} else if( s >= score_start_time && s < 19500){
+    		var display_score = Math.round((s - score_start_time) / score_interval);
+    		$('#score').html(display_score);
+    	}
+    });
+	</script>
+
 <script>
  $(function(){
         $( "#go" ).mousedown(function() {
