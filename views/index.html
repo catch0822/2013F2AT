@@ -100,6 +100,44 @@ $.ajax({
 	}
 });
 
+function gen4foot(x, y ,t1, t2, addTo) {
+    var div = $('<div ' + 
+        'data-' + t1 + '="transform:scale(1);opacity:0;left:' + x + '%;top:' + y + '%;"' + 
+        'data-' + t2 + '="transform:scale(1);opacity:1;"><img src="images/D/Footprint.png"/></div>');
+    div.appendTo(addTo);
+    var div = $('<div ' + 
+        'data-' + t1 + '="transform:scale(1) rotate(180deg);opacity:0;left:' + x + '%;bottom:' + y + '%;"' + 
+        'data-' + t2 + '="transform:scale(1) rotate(180deg);opacity:1;"><img src="images/D/Footprint.png"/></div>');
+    div.appendTo(addTo);
+    var div = $('<div ' + 
+        'data-' + t1 + '="transform:scale(1) rotate(270deg);opacity:0;left:' + y + '%;bottom:' + x + '%;"' + 
+        'data-' + t2 + '="transform:scale(1) rotate(270deg);opacity:1;"><img src="images/D/Footprint.png"/></div>');
+    div.appendTo(addTo);
+    var div = $('<div ' + 
+        'data-' + t1 + '="transform:scale(1) rotate(90deg);opacity:0;right:' + y + '%;bottom:' + x + '%;"' + 
+        'data-' + t2 + '="transform:scale(1) rotate(90deg);opacity:1;"><img src="images/D/Footprint.png"/></div>');
+    div.appendTo(addTo);
+}
+function add_foot(num) {
+    var duration = 1600;
+    var MAX_FOOT = 10;
+    var baseTime = 5800;
+    var range = 1000;
+    var section_num = Math.floor(num / 4);
+    if (section_num > MAX_FOOT) {
+        section_num = MAX_FOOT; // limit the foot number.
+    }
+    var interval = Math.floor(duration/section_num);
+    var gap = 50 / section_num;
+    for (var i = 0 ; i < section_num ; i++) {
+        var t1 = interval * i + baseTime;
+        var t2 = t1 + interval;
+        var r = (Math.random()>=0.5) ? Math.floor(Math.random() * 3) : Math.floor(Math.random() * 3) * -1;
+        var x1 = 48 + r;
+        var y1 = gap * i;
+        gen4foot(x1, y1, t1, t2, '#sceneD');
+    }
+}
 
 $( document ).ready(function() {
    	$("#font_sceneD_peoples").html(font_sceneD_peoples);
@@ -204,47 +242,7 @@ $( document ).ready(function() {
 		}
 	});
 
-	
-
-	function gen4foot(x, y ,t1, t2, addTo) {
-            var div = $('<div ' + 
-                'data-' + t1 + '="transform:scale(1);opacity:0;left:' + x + '%;top:' + y + '%;"' + 
-                'data-' + t2 + '="transform:scale(1);opacity:1;" data-' + duration + '=""><img src="images/D/Footprint.png"/></div>');
-            div.appendTo(addTo);
-            var div = $('<div ' + 
-                'data-' + t1 + '="transform:scale(1) rotate(180deg);opacity:0;left:' + x + '%;bottom:' + y + '%;"' + 
-                'data-' + t2 + '="transform:scale(1) rotate(180deg);opacity:1;" data-' + duration + '=""><img src="images/D/Footprint.png"/></div>');
-            div.appendTo(addTo);
-            var div = $('<div ' + 
-                'data-' + t1 + '="transform:scale(1) rotate(270deg);opacity:0;left:' + y + '%;bottom:' + x + '%;"' + 
-                'data-' + t2 + '="transform:scale(1) rotate(270deg);opacity:1;" data-' + duration + '=""><img src="images/D/Footprint.png"/></div>');
-            div.appendTo(addTo);
-            var div = $('<div ' + 
-                'data-' + t1 + '="transform:scale(1) rotate(90deg);opacity:0;right:' + y + '%;bottom:' + x + '%;"' + 
-                'data-' + t2 + '="transform:scale(1) rotate(90deg);opacity:1;" data-' + duration + '=""><img src="images/D/Footprint.png"/></div>');
-            div.appendTo(addTo);
-	}
-	function add_foot(num) {
-		var duration = 1600;
-		var MAX_FOOT = 10;
-        var baseTime = 5800;
-        var range = 1000;
-        var section_num = Math.floor(num / 4);
-        if (section_num > MAX_FOOT) {
-        	section_num = MAX_FOOT; // limit the foot number.
-        }
-        var interval = Math.floor(duration/section_num);
-		var gap = 50 / section_num;
-        for (var i = 0 ; i < section_num ; i++) {
-            var t1 = interval * i + baseTime;
-            var t2 = t1 + interval;
-            var r = (Math.random()>=0.5) ? Math.floor(Math.random() * 3) : Math.floor(Math.random() * 3) * -1;
-            var x1 = 48 + r;
-            var y1 = gap * i;
-            gen4foot(x1, y1, t1, t2, '#sceneD');
-        }
-	}
-	add_foot(100); // FIXME add real data  	
+	add_foot(global_page_info.checkins); // FIXME add real data  	
     play_next_loop();
     //TODO: modified to real UI
 });
