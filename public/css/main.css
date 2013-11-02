@@ -262,54 +262,127 @@ ul#nav a#a_I:hover {
 	background : url('../images/icons/I_infomation_open.png') 0 100% no-repeat;
 }
 
-img.exhibition{
+div#exhibition_photo_0 {
+    background:url('../images/B/box/125_box.png')  no-repeat;
+    width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_1{
+	background:url('../images/B/box/chefinstyle.png') no-repeat;
+	background-size:100%;
 	width:295px;
-	height:240px;
+    height:240px;
 }
 
-img#exhibition_0:hover{
-	background:url('../images/B/box/125_box_mouse over.png') 0 100% no-repeat;
+div#exhibition_photo_2{
+	background:url('../images/B/box/digitalair.png') no-repeat;
 	background-size:100%;
-	z-index:1000;
+	width:295px;
+    height:240px;
 }
 
-img#exhibition_1:hover{
-	background:url('../images/B/box/chefinstyle_mouse over.png') no-repeat;
+div#exhibition_photo_3{
+	background:url('../images/B/box/gwangdean.png') no-repeat;
 	background-size:100%;
+	width:295px;
+    height:240px;
 }
 
-img#exhibition_2:hover{
-	background:url('../images/B/box/digitalair_mouse over.png') no-repeat;
+div#exhibition_photo_4{
+	background:url('../images/B/box/hlaf.png') no-repeat;
 	background-size:100%;
+	width:295px;
+    height:240px;
 }
 
-img#exhibition_3:hover{
-	background:url('../images/B/box/gwangdean_mouse over.png') no-repeat;
+div#exhibition_photo_5{
+	background:url('../images/B/box/julia.png') no-repeat;
 	background-size:100%;
+	width:295px;
+    height:240px;
 }
 
-img#exhibition_4:hover{
-	background:url('../images/B/box/hlaf_mouse over.png') no-repeat;
+div#exhibition_photo_6{
+	background:url('../images/B/box/Leonardo.png') no-repeat;
 	background-size:100%;
+	 width:295px;
+    height:240px;
 }
 
-img#exhibition_5:hover{
-	background:url('../images/B/box/julia_mouse over.png') no-repeat;
+div#exhibition_photo_7{
+	background:url('../images/B/box/ling.png') no-repeat;
 	background-size:100%;
+	 width:295px;
+    height:240px;
 }
 
-img#exhibition_6:hover{
-	background:url('../images/B/box/Leonardo_mouse over.png') no-repeat;
-	background-size:100%;
-}
-
-img#exhibition_7:hover{
-	background:url('../images/B/box/ling_mouse over.png') no-repeat;
-	background-size:100%;
-}
-
-img#exhibition_8:hover{
-	background:url('../images/B/box/ZHANG_mouse over.png') no-repeat;
+div#exhibition_photo_8{
+	background:url('../images/B/box/ZHANG.png') no-repeat;
 	background-size:100%;
 	z-index:500;
+	 width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_0:hover {
+    background:url('../images/B/box/125_box_mouse over.png') no-repeat;
+    width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_1:hover{
+	background:url('../images/B/box/chefinstyle_mouse over.png') no-repeat;
+	background-size:100%;
+	width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_2:hover{
+	background:url('../images/B/box/digitalair_mouse over.png') no-repeat;
+	background-size:100%;
+	width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_3:hover{
+	background:url('../images/B/box/gwangdean_mouse over.png') no-repeat;
+	background-size:100%;
+	width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_4:hover{
+	background:url('../images/B/box/hlaf_mouse over.png') no-repeat;
+	background-size:100%;
+	width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_5:hover{
+	background:url('../images/B/box/julia_mouse over.png') no-repeat;
+	background-size:100%;
+	width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_6:hover{
+	background:url('../images/B/box/Leonardo_mouse over.png') no-repeat;
+	background-size:100%;
+	width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_7:hover{
+	background:url('../images/B/box/ling_mouse over.png') no-repeat;
+	background-size:100%;
+	width:295px;
+    height:240px;
+}
+
+div#exhibition_photo_8:hover{
+	background:url('../images/B/box/ZHANG_mouse over.png') no-repeat;
+	background-size:100%;
+	width:295px;
+    height:240px;
 }
