@@ -8,10 +8,13 @@
 	<link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div id="time_display" data-0="" data-3000=""></div>
-	<div id="progress" data-0="width:0%;background:hsl(200, 100%, 50%);" data-end="width:100%;background:hsl(920, 100%, 50%);"></div>
+	<div id="SceneF" data-0="" data-3000="" style="width:100%; height:100%; background: url('images/F/quote_bg.png')">
+		<div id="SceneF_bg" data-0="opacity:0;" data-200="opacity:1;" data-3000="" style="width:100%; height:100%; background: url('images/F/quote_1.png')">
+		</div>
+		<div id="time_display" data-0="" data-3000=""></div>
+		<div id="news_title" data-0="top:25%;left:5%" data-500="opacity:1;" data-3000=""></div>
+	</div>
 
-	<div id="scrollbar" data-0="top:0%;margin-top:2px;" data-end="top:100%;margin-top:-52px;"></div>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="js/skrollr.min.js"></script>
 
@@ -20,8 +23,31 @@
 	<![endif]-->
 	<script type="text/javascript" src="js/fake_data.js"></script>
 	<script type="text/javascript">
+	// TODO adjust the real positions
+	var position = [
+		{'x':5,'y':10},
+		{'x':5,'y':60},
+		{'x':5,'y':70},
+		{'x':55,'y':20},
+		{'x':55,'y':50},
+	];
+	function append_news(t, x, y, duration) {
+		var div = $('<div class="news" data-' + (t-1) +'="opacity:0" ' + 
+                'data-' + t + '="opacity:1;left:' + x +'%;top:'+ y +'%;" ' + 
+                'data-' + duration + '="" ></div>');
+       	div.appendTo('#SceneF');
+	}
+	var MAX_NEWS_NUM = 5;
+	var json_news;
+	var title;
+    var title_animation_duration = 500;
+    var title_gap = title_animation_duration / title.length;
+    var news_anim_duration = 1000;
+    var news_gap = 0;
     function generate_news(json) {
-        var duration = 3000;
+    	news_gap = news_anim_duration / get_max_text_size(json);
+    	title = '國家地理頻道'; // TODO replace the real data
+        var duration = 3500;
         var range = 1000;
         var num_y = 3;
         var num_x = 3;
@@ -29,19 +55,27 @@
         var interval = Math.floor(duration / num);
         var gap_y = 100 / num_y;
         var gap_x = 100 / num_x;
-        for (var i in json) {
-            var t1 = interval * i;
-            var t2 = t1 + interval;
-            var x = (i % num_x) * gap_x;
-            var y = Math.floor(i / num_x) * gap_y;
-            var r = (Math.random()>=0.5) ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 10) * -1;
-            var imgIdx = Math.floor(Math.random() * images.length);
-            var div = $('<div ' + 
-                'data-' + t1 + '="transform:scale(0);" ' + 
-                'data-' + t2 + '="transform:scale(1);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '="">' + json[i].title + '</div>');
-            div.appendTo('body');	
+        var max_num = (MAX_NEWS_NUM < json.length) ? MAX_NEWS_NUM : json.length;
+        for (var i=0 ; i < max_num ; i++) {
+            var t = interval * i;
+            var x = position[i].x;
+            var y = position[i].y;
+            append_news(t, x, y, duration);
         }
+        json_news = json;
     }
+
+    function get_max_text_size(json) {
+    	var max = 0;
+    	for(var i in json) {
+    		var s = json[i].title;
+    		if (max < s.length) {
+    			max = s.length;
+    		}
+    	}
+    	return max;
+    }
+
     function update_news_time() {
         var d = new Date(); 
         var datetime = d.getDate() + "/"
@@ -60,6 +94,21 @@
         var s = skrollr.init({
             edgeStrategy: 'set'
         });
+    });
+    
+    $(window).scroll(function(){
+    	var s = $('body').scrollTop();
+    	if( s >= 200 && s < 1000){
+    		var idx = Math.round((s - 500) / title_gap);
+    		$('#news_title').html(title.substring(0, idx));
+    	} else if ( s >= 1000 && s < 3000) {
+    		var idx = Math.round((s - 1000) / news_gap);
+    		$('.news').each(function(id) {
+    			var s = json_news[id].title;
+    			$(this).html(s.substring(0, idx));
+    		});
+    	}
+
     });
 	</script>
 </body>
