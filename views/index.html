@@ -85,7 +85,7 @@ var font_sceneD_peoples;
 $.ajax({
  	async:false,
 	type: 'POST',
-	data:{ page_id:"0" }, // TODO replace the real data
+	data:{ page_id:"0" }, // TODO support multiple exhinbition later
 	url: '/flickr/getPageInfo',            
 	success: function(res) {
 		global_page_info = JSON.parse(res);
@@ -118,6 +118,7 @@ function gen4foot(x, y ,t1, t2, addTo) {
         'data-' + t2 + '="transform:scale(1) rotate(90deg);opacity:1;"><img src="images/D/Footprint.png"/></div>');
     div.appendTo(addTo);
 }
+
 function add_foot(num) {
     var duration = 1600;
     var MAX_FOOT = 10;
@@ -153,7 +154,7 @@ $( document ).ready(function() {
 		async:false,
 		type: 'POST',
 		data:{
-		  uid:"801377271" // fb's uid
+		  uid:"801377271" // fb's uid. (TODO) we will support ofacebook import with other account
 		},
 		url: '/flickr/exhibition_list', 
 		success: function(res) {
@@ -199,9 +200,7 @@ $( document ).ready(function() {
  	$.ajax({
  		async:false,
 		type: 'POST',
-		data:{
-		  fileName:"0" // TODO replace the real data
-		},
+		data:{ fileName:"0" }, // TODO support multiple exhinbition later
 		url: '/flickr/readFile',
 		success: function(res) {
 			init_t1= 10500;
@@ -493,7 +492,6 @@ img.exhibition_photo{
 </div>
 
 <script type="text/javascript">
-	// TODO adjust the real positions
 	var position = [
 		{'x':16,'y':48},
 		{'x':16,'y':78},
