@@ -26,11 +26,8 @@
     <script type="text/javascript" src="js/fake_data.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-    var s = skrollr.init({ edgeStrategy: 'set'});
     var ge;
-    var isInit = false;
     function initialize() {
-    	isInit = true;
         var s = skrollr.init({ edgeStrategy: 'set' });
     }
     var scores = {
@@ -126,23 +123,19 @@
     google.setOnLoadCallback(init);
 
     var friend_num = 3; // TODO real data
-    var score = 100;
+    var score = (friend_num >= 3) ? 100 : friend_num * 33; // FIXME change the fomular
+    set_friend_tag(friend_num);
     var earth_duration = 1000; // TODO
     var score_increasing_num = score / 1000; 
     var base_earth_start_time = 0;
     var earth_start_time = base_earth_start_time + 1000; // TODO
     var current_idx = -1 ;
-
     var word_interval = earth_duration / 5;
-
-    set_friend_tag(3); // TODO set real friend data
 
     $(window).scroll(function(){
         var s = $('body').scrollTop();
         if (s >= earth_start_time && s < earth_start_time + earth_duration) {
-        	if (isInit) {
-            	setScore(((s - earth_start_time) / earth_duration) * score);
-            }
+            setScore(((s - earth_start_time) / earth_duration) * score);
         }
     });
 
