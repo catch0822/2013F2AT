@@ -1,5 +1,5 @@
 query news
-	/news/TYPE_ID/ID.json
+	/news/TYPE_ID_ID.json
 
 query page info
 	/facebook/ID.json

@@ -1,6 +1,9 @@
 {
     "0": {
-        "checkin_users": [],
+    	"image_url":"125_box.png",
+    	"image_selected":"125_box_mouse over.png",
+    	"friend_images":[],
+        "checkin_users":[],
         "users": [
             {
                 "username": "eva.xiong.bear",
@@ -42,10 +45,16 @@
         ]
     },
     "1": {
+    	"image_url":"Leonardo.png",
+    	"image_selected":"Leonardo_mouse over.png",
+    	"friend_images":[],
         "checkin_users": [],
         "users": []
     },
     "2": {
+    	"image_url":"gwangdean.png",
+    	"image_selected":"gwangdean_mouse over.png",
+    	"friend_images":[],
         "checkin_users": [],
         "users": [
             {
@@ -93,6 +102,9 @@
         ]
     },
     "3": {
+    	"image_url":"ZHANG_mouse.png",
+    	"image_selected":"ZHANG_mouse over.png",
+    	"friend_images":[],
         "checkin_users": [],
         "users": [
             {
@@ -126,6 +138,9 @@
         ]
     },
     "4": {
+    	"image_url":"hlaf_mouse.png",
+    	"image_selected":"hlaf_mouse over.png",
+    	"friend_images":[],
         "checkin_users": [],
         "users": [
             {
@@ -173,6 +188,9 @@
         ]
     },
     "5": {
+    	"image_url":"x.png",
+    	"image_selected":"x.png",
+    	"friend_images":[],
         "checkin_users": [],
         "users": [
             {
@@ -234,18 +252,23 @@
         ]
     },
     "6": {
+    	"image_url":"chefinstyle.png",
+    	"image_selected":"chefinstyle_mouse over.png",
+    	"friend_images":[],
         "checkin_users": [],
         "users": []
     },
     "7": {
+    	"image_url":"x.png",
+    	"image_selected":"x.png",
+    	"friend_images":[],
         "checkin_users": [],
         "users": []
     },
     "8": {
-        "checkin_users": [],
-        "users": []
-    },
-    "9": {
+    	"image_url":"digitalair.png",
+    	"image_selected":"digitalair_mouse over.png",
+    	"friend_images":[],
         "checkin_users": [],
         "users": []
     }
