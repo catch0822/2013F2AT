@@ -66,7 +66,41 @@ function handleSessionResponse() {
   });
 }
 
-var font_sceneD_peoples= "228";
+var global_page_info;
+
+// for popular
+var score_duration = 3000;
+var score_start_time = 17500;
+var score;
+var score_interval;
+
+// for news 
+var title;
+var title_animation_duration = 500;
+var title_gap;
+
+// for foot/checkin
+var font_sceneD_peoples;
+
+$.ajax({
+ 	async:false,
+	type: 'POST',
+	data:{ page_id:"0" }, // TODO replace the real data
+	url: '/flickr/getPageInfo',            
+	success: function(res) {
+		global_page_info = JSON.parse(res);
+		var g = global_page_info;
+		score = (g.were_here_count + (g.checkins * 100) + (g.talking_about_count * 10) + g.likes) % 40 + 60; // TODO change the fomular
+    	score_interval = Math.round(score_duration / score);
+
+    	title = g.name;
+    	title_gap = title_animation_duration / title.length;
+
+    	font_sceneD_peoples = g.checkins;
+	}
+});
+
+
 $( document ).ready(function() {
    	$("#font_sceneD_peoples").html(font_sceneD_peoples);
 	var num_x = 3;
@@ -108,14 +142,14 @@ $( document ).ready(function() {
          div.appendTo('#sceneB');
  	}
 
- 	 var sceneE_action_order=[0, 4, 8, 12, 9, 5, 1, 2, 6, 10, 13, 11, 7, 3]
+ 	var sceneE_action_order=[0, 4, 8, 12, 9, 5, 1, 2, 6, 10, 13, 11, 7, 3]
  	$.ajax({
  		async:false,
 		type: 'POST',
 		data:{
 		  fileName:"0" // TODO replace the real data
 		},
-		url: '/flickr/readFile',            
+		url: '/flickr/readFile',
 		success: function(res) {
 			init_t1= 10500;
 			init_t2= 10900;
@@ -136,7 +170,6 @@ $( document ).ready(function() {
 		    var row_3_y = [52, 53, 52, 53]
 		    var row_4_x = [12, 52]
 		    var row_4_y = [75, 76]
-
 
 		    for(var q=0; q<14 ; q++){
 		    	i= sceneE_action_order[q];
@@ -170,6 +203,8 @@ $( document ).ready(function() {
 		    }
 		}
 	});
+
+	
 
 	function gen4foot(x, y ,t1, t2, addTo) {
             var div = $('<div ' + 
@@ -462,14 +497,12 @@ img.exhibition_photo{
 	var MAX_NEWS_NUM = 5;
 	var json_news;
 	var title;
-    var title_animation_duration = 500;
+    
     var title_gap;
     var news_anim_duration = 1000;
     var news_gap = 0;
     function generate_news(json) {
     	news_gap = news_anim_duration / get_max_text_size(json);
-    	title = '國家地理125年經典影像大展'; // TODO replace the real data
-    	title_gap = title_animation_duration / title.length
         var duration = 3500;
         var base_time = 14000;
         var range = 1000;
@@ -518,11 +551,7 @@ img.exhibition_photo{
 	                + d.getMilliseconds();
         $('#time_display').html(datetime);
     }
-    // for popular
-    var score = 60; // FIXME replace real data
-    var score_duration = 3000;
-    var score_interval = Math.round(score_duration / score);
-    var score_start_time = 17500;
+    
 
     window.setInterval(function(){update_news_time()}, 100);
     $.getJSON("js/test_news.json", function(json) {

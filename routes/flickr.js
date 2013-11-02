@@ -3,6 +3,17 @@ var log = require('log4js').getLogger('auth'),
 
 var resJson = {imgUrl: []};
 
+exports.getPageInfo = function(req, res) {
+	var page_id = req.body.page_id;
+	fs.readFile('data/facebook/'+page_id + '.json', 'utf8', function (err, data) {
+	  	if (err) {
+	    	console.log('Error: ' + err);
+	    	return;
+	  	}
+	  	res.send(data);
+	});
+}
+
 exports.readFile = function(req, res) {
     var fileName = req.body.fileName;
 	fs.readFile('data/flickr/99/'+fileName + '.json', 'utf8', function (err, data) {
