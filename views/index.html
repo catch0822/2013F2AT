@@ -516,7 +516,6 @@ img.exhibition_photo{
 	                + d.getMinutes() + ":" 
 	                + d.getSeconds() + ":"
 	                + d.getMilliseconds();
-
         $('#time_display').html(datetime);
     }
     // for popular
@@ -525,26 +524,28 @@ img.exhibition_photo{
     var score_interval = Math.round(score_duration / score);
     var score_start_time = 17500;
 
-
     window.setInterval(function(){update_news_time()}, 100);
     $.getJSON("js/test_news.json", function(json) {
         generate_news(json);
         var s = skrollr.init({ edgeStrategy: 'set' });
     });
-    
+
     $(window).scroll(function(){
     	var s = $('body').scrollTop();
     	if( s >= 14200 && s < 15000){
     		var idx = Math.round((s - 14200) / title_gap);
     		$('#news_title').html(title.substring(0, idx));
-    	} else if ( s >= 15000 && s < 18500) {
+    	}
+    	if ( s >= 15000 && s < 18500) {
     		var idx = Math.round((s - 15000) / news_gap);
     		$('.news').each(function(id) {
     			var s = json_news[id].title;
     			$(this).html(s.substring(0, idx));
     		});
-    	} else if( s >= score_start_time && s < score_start_time + score_duration){
+    	}
+    	if( s >= score_start_time  && s < score_start_time + score_duration){
     		var display_score = Math.round((s - score_start_time) / score_interval);
+    		console.log(display_score);
     		$('#score').html(display_score);
     	}
     });
