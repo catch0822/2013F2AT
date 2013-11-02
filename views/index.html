@@ -113,7 +113,7 @@ $( document ).ready(function() {
  		async:false,
 		type: 'POST',
 		data:{
-		  fileName:"flickr_geo.json" // TODO replace the real data
+		  fileName:"0" // TODO replace the real data
 		},
 		url: '/flickr/readFile',            
 		success: function(res) {
@@ -140,6 +140,7 @@ $( document ).ready(function() {
 
 		    for(var q=0; q<14 ; q++){
 		    	i= sceneE_action_order[q];
+		    	var img_idx = Math.floor(Math.random() * res.imgUrl.length);
 		    	t1 =init_t1;
  				t2 =init_t2+150*q;
  				var x, y;
@@ -159,12 +160,12 @@ $( document ).ready(function() {
  					x=row_1_x[i];	
  					y=row_1_y[i];	
  				}
-		        //className = flickr.getRandom('categories');
+
 		        var className = "public";
 		        if(i==9 || i==11){
 		        	className="private";
 		        }
-		        var div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[i]+'"/></div>');
+		        var div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[img_idx]+'"/></div>');
 				div.appendTo('#sceneE_photo_gallery');
 		    }
 		}
@@ -310,7 +311,7 @@ img.exhibition_photo{
 	width:235px;
 	height:160px;
 	margin: 22px 0 5px 0;
-	position: relative;	
+	position: relative;
 }
 </style>
 
