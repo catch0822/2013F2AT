@@ -9,7 +9,7 @@ exports.index = function(req, res){
 
 
 exports.test = function(req, res){
-  res.render('test.html');
+  res.render('test_popular.html');
 };
 
 exports.test2 = function(req, res){
