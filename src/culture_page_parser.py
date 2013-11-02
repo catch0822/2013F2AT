@@ -4,6 +4,7 @@ import json, sys, urllib, time
 from common import connect
 from google_news_parser import parse_news
 from weather_parser import parse_weather
+from flickr_parser import connect_flickr
 
 def conenct_fql_page(page_id):
     url = generate_page_info_url(page_id)
@@ -61,7 +62,7 @@ if __name__ == '__main__':
         json_content = json.loads(content, encoding="utf-8")
         total = len(json_content)
         all_arts_num = all_arts_num + total
-        for j in range(8, total):
+        for j in range(0, total):
             title = json_content[j]['title']
             print "@{page} {current}/{total} title : {title}".format(title=title, current=j+1, total=total, page=str(i))
             #info = json_content[j]['showInfo']
@@ -70,7 +71,10 @@ if __name__ == '__main__':
             #    proc_weather(info[0]['latitude'], info[0]['longitude'], i, j)
 
             #proc_weather(json_content[j]['latitude'], json_content[j]['longitude'], i, j)
-            proc_news(title, i, j)
+            #proc_news(title, i, j)
+            f = open("../data/flickr/{type}/{id}.json".format(type=i, id=j), 'w')
+            f.write(json.dumps(connect_flickr(title.encode("utf-8"), 'text')))
+            f.close()
             #conenct_fql(title)
             #time.sleep(0.5)
         
