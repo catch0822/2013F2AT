@@ -225,8 +225,8 @@ a#a_A{
 a#a_B{
 	background  : url('../images/icons/B_Exhibition.png') 0 100% no-repeat;
 }
-a#a_C{
-	background  : url('../images/icons/C_check in.png') 0 100% no-repeat;
+a#a_D{
+	background  : url('../images/icons/D_check in.png') 0 100% no-repeat;
 }
 a#a_E{
 	background  : url('../images/icons/E_pic.png') 0 100% no-repeat;
@@ -246,8 +246,8 @@ ul#nav a#a_A:hover {
 ul#nav a#a_B:hover {
 	background : url('../images/icons/B_Exhibition_open.png') 0 100% no-repeat;
 }
-ul#nav a#a_C:hover {
-	background : url('../images/icons/C_check in_open.png') 0 100% no-repeat;
+ul#nav a#a_D:hover {
+	background : url('../images/icons/D_check in_open.png') 0 100% no-repeat;
 }
 ul#nav a#a_E:hover {
 	background : url('../images/icons/E_pic_open.png') 0 100% no-repeat;

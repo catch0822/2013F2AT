@@ -124,9 +124,9 @@ $( document ).ready(function() {
 			// <div class="private" data-8000="transform:scale(0) rotate(90deg);" data-8200="transform:scale(1) rotate(0deg); left:40%" >
 			// 	<img class="exhibition_photo" src="https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg"/>
 			// </div>
-			init_t1= 8000;
-			init_t2= 8200;
-			var duration= 3000;
+			init_t1= 10500;
+			init_t2= 10900;
+			var duration= 4000;
 
 		    var flickr = {};
 		    flickr.categories = 'private public'.split(' ');
@@ -192,7 +192,7 @@ $( document ).ready(function() {
 	function add_foot(num) {
 		var duration = 1600;
 		var MAX_FOOT = 10;
-        var baseTime = 3500;
+        var baseTime = 5800;
         var range = 1000;
         var section_num = Math.floor(num / 4);
         if (section_num > MAX_FOOT) {
@@ -206,7 +206,7 @@ $( document ).ready(function() {
             var r = (Math.random()>=0.5) ? Math.floor(Math.random() * 3) : Math.floor(Math.random() * 3) * -1;
             var x1 = 48 + r;
             var y1 = gap * i;
-            gen4foot(x1, y1, t1, t2, '#sceneC');
+            gen4foot(x1, y1, t1, t2, '#sceneD');
         }
 	}
 	add_foot(100); // FIXME add real data
@@ -259,6 +259,13 @@ cursor: pointer;
 }
 
 #sceneC {
+	width:100%;
+	height:100%;
+    text-align: center;
+    vertical-align:middle;
+}
+
+#sceneD {
     width:100%;
     height:100%;
     background:url(images/D/bg.jpg);
@@ -330,7 +337,7 @@ img.exhibition_photo{
 		</li>
 		<li>
 			<div onclick="">
-				<a id="a_C">C</a>
+				<a id="a_D">D</a>
 			</div>
 		</li>
 		<li>
@@ -379,29 +386,32 @@ img.exhibition_photo{
 		
 </div>
 
-<div id="sceneC" data-3200="top:100%;" data-3400="top:0%;" data-3500="display:block;" data-6400="top:0%;"data-6500="bottom:50%;" data-6800="top:-100%;display:none;">  
-        
-        <div class="drop" data-0="transform:scale(1); left:45%; top:42%;" data-6500="transform:scale(1);" data-6800="transform:scale(12);bottom:100%" style="position:absolute;">
-            <img src="images/D/bg_s.png"/>
-        </div>
-        <!-- Footprints path -->
-        
-        <!--End Footprints path-->
-        <div class="drop" data-0="display:none;" data-4800="display:block;bottom:-20%" data-5200="bottom:0%" style="position: absolute; right: 5px; bottom: 5px">
-             <img src="images/D/other_people.png"/>
-        </div>
-        <div data-0="display:none;" data-5300="display:block;bottom:-180px" data-5600=" right:70px; bottom:60px" style="position: absolute;">
-	        <font id="font_sceneD_peoples" style="font-family: 'Sintony', sans-serif; color:#FFFFFF; font-size:100px"></font>
-   		</div>
-</div>
-
-<div id="sceneE" data-0="display:none;" data-6900="display:block;" data-12000="top:0%;" data-12200="top:-100%;display:none;"> 
-	<div id="sceneE_photo_gallery" style="margin:0 auto;width:80%; height:80%">
-
-
+<div id="sceneC" data-0="display:none;" data-3500="display:block;bottom:-30%" data-5500="bottom:0%" data-6000="display:none;">
+	<div data-3800="bottom:-20%"data-5000="bottom:0%;right:0;margin-bottom:120px;">
+		<img src="images/C/C_a.png">
+	</div>
+	<div data-4200="bottom:-20%" data-5400="bottom:0%; margin-left:10%; margin-bottom:182px;">
+		<img src="images/C/C_b.png">
 	</div>
 </div>
 
+<div id="sceneD" data-6000="top:100%;" data-6100="top:0%;" data-6300="display:block;" data-7900="top:0%;"data-10000="bottom:50%;" data-10300="top:-100%;display:none;">  
+        
+        <div class="drop" data-0="transform:scale(1); left:45%; top:42%;" data-8900="transform:scale(1);" data-9800="transform:scale(12);bottom:100%" style="position:absolute;">
+            <img src="images/D/bg_s.png"/>
+        </div>
+        <div class="drop" data-0="display:none;" data-8100="display:block;bottom:-20%" data-8500="bottom:0%" style="position: absolute; right: 5px; bottom: 5px">
+             <img src="images/D/other_people.png"/>
+        </div>
+        <div data-0="display:none;" data-8500="display:block;bottom:-180px" data-8900=" right:70px; bottom:60px" style="position: absolute;">
+	        <font id="font_sceneD_peoples" style="font-family: 'Sintony', sans-serif; color:#FFFFFF; font-size:100px"></font>
+   		</div>
+</div>
+<div id="sceneE" data-0="display:none;" data-10300="display:block;" data-13800="top:0%;" data-14000="top:-100%;display:none;"> 
+	<div id="sceneE_photo_gallery" style="margin:0 auto;width:80%; height:80%">
+
+	</div>
+</div>
 <script>
  $(function(){
         $( "#go" ).mousedown(function() {
