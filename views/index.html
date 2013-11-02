@@ -104,7 +104,7 @@ $( document ).ready(function() {
  		}
  		duration = 3000;
  		random_deg = Math.floor((Math.random()*90)+1);
-        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><input type="image" class="exhibition" id="exhibition_0" src=\"images/B/box/'+file_name[q]+'\"/></div>');
+        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><div id="exhibition_photo_'+i+'"></div></div>');
          div.appendTo('#sceneB');
  	}
 
@@ -321,7 +321,6 @@ img.exhibition_photo{
 		<a href="#"><img src="images/icons/art.png"/></a>
 	</div>
 </header>
-
 <div style="text-align:right;">
 	<input type="image" id="top_fb" src="images/A/top_fb.png"/>
 	<input type="image" id="top_Tweets" src="images/A/top_Tweets.png"/>
@@ -340,7 +339,7 @@ img.exhibition_photo{
 			</div>
 		</li>
 		<li>
-			<div onclick="window.scrollTo(0, 3600); return false;">
+			<div onclick="window.scrollTo(0, 6300); return false;">
 				<a id="a_D">D</a>
 			</div>
 		</li>
@@ -419,9 +418,9 @@ img.exhibition_photo{
 <div id="sceneF" data-0="display:none;" data-14000="display:block;bottom:-30%" data-14500="bottom:0%" data-17500="display:none;">
 	<div id="SceneF_bg" data-14000="opacity:0;" data-14200="opacity:1;" data-17000="" style="width:100%; height:100%; background: url('images/F/quote_1.png'); background-size:72%; background-repeat:no-repeat;margin-left:10%">
 	</div>
-	<div id="time_display" data-14000="" data-17000=""></div>
+	<div data-14000="right:400px; top:100px" data-17000=""><font id="time_display" style="font-family: 'arial',font-weight: bold; font-size:32px"></font></div>
 	<div data-14000="top:19%;left:300px" data-500="opacity:1;" data-17000="">
-		<font id="news_title" style="font-size:30px; font-family: arial;font-weight: bold;"></font>
+		<font id="news_title" style="font-size:30px; font-family:arial;font-weight: bold;"></font>
 	</div>
 </div>
 
@@ -509,6 +508,14 @@ img.exhibition_photo{
                 + d.getMinutes() + ":" 
                 + d.getSeconds() + ":"
                 + d.getMilliseconds();
+        var datetime = d.getFullYear()+"年 "
+        			+ (d.getMonth()+1)+"月"
+        			+ d.getDate()+"日 "
+        			+ d.getHours() + ":"  
+	                + d.getMinutes() + ":" 
+	                + d.getSeconds() + ":"
+	                + d.getMilliseconds();
+
         $('#time_display').html(datetime);
     }
     // for popular
