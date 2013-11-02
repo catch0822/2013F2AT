@@ -29,17 +29,29 @@
             var geo = json;
             var lat = geo.main.latitude;
             var lon = geo.main.longitude;
-            ge.getFeatures().appendChild(createMarker(geo.main.title, lat, lon));
-            changeLookAt(lat, lon);
+            // ge.getFeatures().appendChild(createMarker(geo.main.title, lat, lon));
+            //changeLookAt(lat, lon);
+            setScore(50);
             var s = skrollr.init({ edgeStrategy: 'set' });
         });
     }
+    // TODO adjust this args.
     var scores = [
-        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
-        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
-        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
-        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
-        {"p1":{"lat":1,"lon":1},"p2":{"lat":2,"lon":2},"zoom":1},
+        {"lat":1,"lon":1,
+        	"p1":{"lat":1,"lon":1, "title":"q1"},
+        	"p2":{"lat":2,"lon":2, "title":"q2"},"zoom":1, "altitude":4000000, "heading":0, "tilt":0, "range":0},
+        {"lat":1,"lon":1,
+        	"p1":{"lat":1,"lon":1},
+        	"p2":{"lat":2,"lon":2},"zoom":1, "altitude":40000, "heading":0, "tilt":0, "range":0},
+        {"lat":1,"lon":1,
+        	"p1":{"lat":1,"lon":1},
+        	"p2":{"lat":2,"lon":2},"zoom":1, "altitude":4000, "heading":0, "tilt":0, "range":0},
+        {"lat":1,"lon":1,
+        	"p1":{"lat":1,"lon":1},
+        	"p2":{"lat":2,"lon":2},"zoom":1, "altitude":100, "heading":0, "tilt":0, "range":0},
+        {"lat":1,"lon":1,
+        	"p1":{"lat":1,"lon":1},
+        	"p2":{"lat":2,"lon":2},"zoom":1, "altitude":3, "heading":0, "tilt":0, "range":0},
     ];
 
     function setScore(score) {
@@ -57,9 +69,9 @@
             idx = 4;
         }
         var r = scores[idx];
-        ge.getFeatures().appendChild(createMarker(r.p1.lat, r.p1.lon));
-        ge.getFeatures().appendChild(createMarker(r.p2.lat, r.p2.lon));
-        changeLookAt(lat, lon);
+        ge.getFeatures().appendChild(createMarker("", r.p1.lat, r.p1.lon));
+        ge.getFeatures().appendChild(createMarker("", r.p2.lat, r.p2.lon));
+        changeLookAt(r);
     }
     function createMarker(title, lat, lon) {
         var pmk = ge.createPlacemark('');
@@ -71,12 +83,10 @@
         return pmk;
     }
     // Change the camera 
-    function changeLookAt(lat, lon){
-        // Move the camera. (set the map center)
+    function changeLookAt(s){
         var la = ge.createLookAt('');
-        la.set(39, 1000, 4000000, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 0, 99.99);
-        la.setLatitude(lat);
-        la.setLongitude(lon);
+        // latitude, longitude, altitude, altitudeMode, heading, tilt, range
+        la.set(s.lat, s.lon, s.altitude, ge.ALTITUDE_RELATIVE_TO_GROUND, s.heading, s.tilt, s.range);
         ge.getView().setAbstractView(la);
     }
 
