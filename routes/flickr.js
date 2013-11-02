@@ -22,3 +22,28 @@ exports.readFile = function(req, res) {
 	  res.send(resJson);
 	});
 };
+
+exports.exhibition_list = function(req, res) {
+	retJson = {imgUrl: [], image_selected:[], friend_images:[], checkin_users:[], users:[]};
+	var fb_uid = req.body.uid;
+	fs.readFile('data/list/'+fb_uid+'.json', 'utf8', function (err, data) {
+	   if (err) {
+	    console.log('Error: ' + err);
+	    return;
+	   }
+	   data = JSON.parse(data);
+	   for(var i = 0;i < 9 ;i++){
+	   	 image_url=data[''+i].image_url
+	   	 image_selected=data[''+i].image_selected
+	   	 friend_images=data[''+i].friend_images
+	   	 checkin_users=data[''+i].checkin_users
+	   	 users=data[''+i].users
+	   	 retJson['imgUrl'][i]=image_url;
+	   	 retJson['image_selected'][i]=image_selected;
+		 retJson['friend_images'][i]=friend_images;
+		 retJson['checkin_users'][i]=checkin_users;
+		 retJson['users'][i]=users;
+	  }
+	  	res.send(retJson);
+	});	
+}
