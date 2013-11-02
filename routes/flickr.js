@@ -28,7 +28,7 @@ exports.readFile = function(req, res) {
 		resJson['imgUrl'][i]="http://farm"+photos[i].farm+".static.flickr.com/"+photos[i].server+"/"+photos[i].id+"_"+photos[i].secret+"_m.jpg"
 		//webURL="http://www.flickr.com/photos/"+photos[i].owner+"/"+photos[i].id+"/sizes/s/"
 	  }
-	  log.info(resJson.imgUrl);
+	  //log.info(resJson.imgUrl);
 	  res.send(resJson);
 	});
 };
