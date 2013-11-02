@@ -148,37 +148,52 @@ $( document ).ready(function() {
     var init_y = 10;
     var init_t1 =1200;
  	var init_t2 =1500;
-   // <div class="drop" data-6500="left:15%;bottom:100%;" data-9500="bottom:0%;">linear</div>
-   var action_order=[0, 1, 2, 5, 4, 3, 6, 7, 8];
-   var file_name=["125_box.png", "chefinstyle.png", "digitalair.png","gwangdean.png",
-   "hlaf.png", "julia.png", "Leonardo.png", "ling.png", "ZHANG.png"]
- 	for (var q = 0 ; q < num ; q ++) {
- 		i=action_order[q]
- 		t1 =init_t1+150*q;
- 		t2 =init_t2+150*q;
- 		var x, y;
- 		if(i % 3 ==1){
- 			x= init_x + 25;
- 		}
- 		else if(i % 3 == 2){
- 			x= init_x + 50;
- 		}else{
- 			x= init_x; 
- 		}
 
- 		if(i < 3){
- 			y= init_y; 
- 		}else if( i >= 3 && i < 6){
- 			x += 12;
- 			y= init_y+30;
- 		}else{
- 			y= init_y+60;
- 		}
- 		duration = 3000;
- 		random_deg = Math.floor((Math.random()*90)+1);
-        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><div id="exhibition_photo_'+i+'"></div></div>');
-         div.appendTo('#sceneB');
- 	}
+ 	$.ajax({
+		async:false,
+		type: 'POST',
+		data:{
+		  uid:"801377271" // fb's uid
+		},
+		url: '/flickr/exhibition_list', 
+		success: function(res) {
+			var action_order=[0, 1, 2, 5, 4, 3, 6, 7, 8];
+		 	for (var q = 0 ; q < num ; q ++) {
+		 		i=action_order[q]
+		 		users=res.users[i]
+		 		t1 =init_t1+150*q;
+		 		t2 =init_t2+150*q;
+		 		var x, y;
+		 		if(i % 3 ==1){
+		 			x= init_x + 25;
+		 		}
+		 		else if(i % 3 == 2){
+		 			x= init_x + 50;
+		 		}else{
+		 			x= init_x; 
+		 		}
+
+		 		if(i < 3){
+		 			y= init_y; 
+		 		}else if( i >= 3 && i < 6){
+		 			x += 12;
+		 			y= init_y+30;
+		 		}else{
+		 			y= init_y+60;
+		 		}
+		 		duration = 3000;
+		 		random_deg = Math.floor((Math.random()*90)+1);
+		 		var photo_div_context='<div style="position:absolute;margin-top:173px;margin-left:36px">';
+		 		if(users.length!=0){
+		 			for(var i=0; i<users.length; i++)
+		 			photo_div_context+='<img src="'+users[i].pic_small+'" style="width:50px;height:50px"/>'
+		 		}
+		 		photo_div_context+="</div>";
+		        var div = $(' <div class="drop exhibition" ' + 'data-' + t1 + '="transform:scale(0) rotate(' + random_deg + 'deg); opacity:0;" ' + 'data-' + t2 + '="transform:scale(1) rotate(0deg);opacity:1;left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><div id="exhibition_photo_'+action_order[q]+'"> '+photo_div_context+' </div></div>');
+		         div.appendTo('#sceneB');
+		 	}
+		}
+	});
 
  	var sceneE_action_order=[0, 4, 8, 12, 9, 5, 1, 2, 6, 10, 13, 11, 7, 3]
  	$.ajax({
