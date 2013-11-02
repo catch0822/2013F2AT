@@ -25,6 +25,7 @@ if ('development' == app.get('env')) {
 // URL Mapping
 app.get('/', routes.index);
 app.post('/flickr/readFile', flickr.readFile);
+app.post('/flickr/getNews', flickr.getNews);
 app.post('/flickr/exhibition_list', flickr.exhibition_list);
 app.post('/flickr/getPageInfo', flickr.getPageInfo);
 app.get('/test', routes.test);

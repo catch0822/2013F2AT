@@ -196,6 +196,16 @@ $( document ).ready(function() {
 		}
 	});
 
+	$.ajax({
+ 		async:false,
+		type: 'POST',
+		data:{ page_id :"0" }, // TODO support multiple exhinbition later
+		url: '/flickr/getNews',
+		success: function(res) {
+			generate_news(JSON.parse(res));
+		}
+	});
+
  	var sceneE_action_order=[0, 4, 8, 12, 9, 5, 1, 2, 6, 10, 13, 11, 7, 3]
  	$.ajax({
  		async:false,
@@ -258,6 +268,7 @@ $( document ).ready(function() {
 
 	add_foot(global_page_info.checkins);
     play_next_loop();
+    skrollr.init({ edgeStrategy: 'set' });
     //TODO: modified to real UI
 });
 
@@ -563,12 +574,7 @@ function update_news_time() {
     $('#time_display').html(datetime);
 }
 
-
 window.setInterval(function(){update_news_time()}, 100);
-$.getJSON("js/test_news.json", function(json) {
-    generate_news(json);
-    var s = skrollr.init({ edgeStrategy: 'set' });
-});
 
 $(window).scroll(function(){
 	var s = $('body').scrollTop();
