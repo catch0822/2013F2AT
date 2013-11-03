@@ -290,10 +290,12 @@ $( document ).ready(function() {
 		        	if (global_fans_list.friend_images[0].length>=2) {
 		        		var tidx = (i==9) ? 0 : 1;
 		        		img = global_fans_list.friend_images[0][tidx].url
+		        		var thumbnialImg = global_fans_list.friend_images[0][tidx].uid_photo;
+		        		div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+ img +'"/><img src="'+thumbnialImg+'"></div>');
 		        	} else {
 		        		img = res.imgUrl[img_idx];
+		        		div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+ img +'"/></div>');
 		        	}
-		        	div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+ img +'"/></div>');
 		        } else {
 		        	div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[img_idx]+'"/></div>');
 		    	}
