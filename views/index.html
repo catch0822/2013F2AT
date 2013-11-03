@@ -117,7 +117,7 @@ function set_friend_tag(tag_src_list) { //TOOD update interface
         var div = $('<div class="friend" style="float:left;" ' + 
             'data-' + base_earth_start_time + '="display:none;"' + 
             'data-' + t1 + '="display:block;opacity:0;"' + 
-            'data-' + t2 + '="opacity:1;" ><img src="'+tag_src_list[i].pic_small+'"/></div>');
+            'data-' + t2 + '="opacity:1;" ><img src="'+tag_src_list[i].pic_big+'"/></div>');
         div.appendTo('#comment_friends');
     }
 }
@@ -291,7 +291,7 @@ $( document ).ready(function() {
 		        		var tidx = (i==9) ? 0 : 1;
 		        		img = global_fans_list.friend_images[0][tidx].url
 		        		var thumbnialImg = global_fans_list.friend_images[0][tidx].uid_photo;
-		        		div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+ img +'"/><img src="'+thumbnialImg+'"></div>');
+		        		div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+ img +'"/><img src="'+thumbnialImg+'" style="margin-top:30px"></div>');
 		        	} else {
 		        		img = res.imgUrl[img_idx];
 		        		div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+ img +'"/></div>');
@@ -654,7 +654,7 @@ img.exhibition_photo{
 			</div>
 		</li>
 		<li>
-			<div>
+			<div onclick="window.scrollTo(0, 21550); return false;">
 				<a id="a_I">I</a>
 			</div>
 		</li>
@@ -743,10 +743,10 @@ img.exhibition_photo{
 	<div id="bg" style="width:100%;height:100%;background:rgb(89,239,203);" data-0="top:-100%;" data-22000="top:0%;"></div>
 
 
-	<img data-0="" data-24500="" src="images/H/google earth_word.png"/>
+	<img data-0="" data-24500="margin-left:16%;margin-top:15px" src="images/H/google earth_word.png"/>
 	<div id="map3d" data-0="display:none;" data-22000="display:block;top:200%;" data-22500="top:50%;" style="height:100%; width:100%;"></div>
 
-	<div id="comment" data-0="top:45%;left:50%;display:none;" data-22000="display:block;opacity:0;" data-22500="opacity:1;" ></div>
+	<div data-0="top:45%;left:50%;display:none;" data-22000="display:block;opacity:0;" data-22500="opacity:1;" ><font id="comment" style="font-size:46px; font-family: arial;font-weight: bold;color:black"></font></div>
 
 	<div id="comment_friends" data-0="top:25%;left:50%;display:none;" data-22000="display:block;" ></div>
 
