@@ -84,9 +84,9 @@ var title_gap;
 var font_sceneD_peoples;
 
 var friend_num = 3; // TODO real data
-var score = (friend_num >= 3) ? 100 : friend_num * 33; // FIXME change the fomular
+var earth_score = (friend_num >= 3) ? 100 : friend_num * 33; // FIXME change the fomular
 var earth_duration = 2000; // TODO
-var score_increasing_num = score / 1000; 
+var score_increasing_num = earth_score / 1000; 
 var base_earth_start_time = 21500;
 var earth_start_time = base_earth_start_time + 1000; // TODO
 var current_idx = -1 ;
@@ -109,15 +109,15 @@ $.ajax({
 	}
 });
 
-function set_friend_tag(num) { //TOOD update interface
-    var time_gap = Math.floor(earth_duration / num);
-    for(var i = 0 ; i < num ; i++){
+function set_friend_tag(tag_src_list) { //TOOD update interface
+    var time_gap = Math.floor(earth_duration / tag_src_list.length);
+    for(var i = 0 ; i < tag_src_list.length ; i++){
         var t1 = time_gap * i + earth_start_time;
         var t2 = time_gap * (i + 1) + earth_start_time;
         var div = $('<div class="friend" style="float:left;" ' + 
             'data-' + base_earth_start_time + '="display:none;"' + 
             'data-' + t1 + '="display:block;opacity:0;"' + 
-            'data-' + t2 + '="opacity:1;" ><img src="http://profile.ak.fbcdn.net/hprofile-ak-ash2/1117343_627742448_835827200_s.jpg"/></div>');
+            'data-' + t2 + '="opacity:1;" ><img src="'+tag_src_list[i].pic_small+'"/></div>');
         div.appendTo('#comment_friends');
     }
 }
@@ -141,6 +141,9 @@ function gen4foot(x, y ,t1, t2, addTo) {
     div.appendTo(addTo);
 }
 
+function initialize() {
+    var s = skrollr.init({ edgeStrategy: 'set' });
+}
 function add_foot(num) {
     var duration = 1600;
     var MAX_FOOT = 10;
@@ -181,6 +184,7 @@ $( document ).ready(function() {
 		url: '/flickr/exhibition_list', 
 		success: function(res) {
 			global_fans_list = res;
+			set_friend_tag(res.users[0]);
 			var action_order=[0, 1, 2, 5, 4, 3, 6, 7, 8];
 		 	for (var q = 0 ; q < num ; q ++) {
 		 		i=action_order[q]
@@ -239,7 +243,6 @@ $( document ).ready(function() {
 			init_t1= 10500;
 			init_t2= 10900;
 			var duration= 4000;
-
 		    var flickr = {};
 		    flickr.categories = 'private public'.split(' ');
 		    flickr.getRandom = function( property ) {
@@ -307,10 +310,6 @@ $( document ).ready(function() {
 
     //TODO: modified to real UI
 });
-
-function initialize() {
-    var s = skrollr.init({ edgeStrategy: 'set' });
-}
 
 function play_next_loop() {
     $("#play_next").animate({opacity: 1.0}, {duration: 350})
@@ -404,6 +403,7 @@ window.setInterval(function(){update_news_time()}, 100);
        ]
     }
 
+    var tempLine;
     function setScore(score) {
         //console.log("score : " + score);
         var idx;
@@ -424,12 +424,16 @@ window.setInterval(function(){update_news_time()}, 100);
         $('#comment').html(c.substring(0, w_idx));
         console.log(w_idx + " " +c.substring(0, w_idx));*/
         if (idx != current_idx) {
-            // TODO clear line
+        	if (tempLine != null) {
+            	ge.getFeatures().removeChild(tempLine);
+            	tempLine = null;
+            }
             current_idx = idx;
             var r = scores.target[idx];
             ge.getFeatures().appendChild(createMarker(scores.title, scores.lat, scores.lon));
             ge.getFeatures().appendChild(createMarker(r.title, r.lat, r.lon));
-            createLine(scores.lat, scores.lon, r.lat, r.lon);
+            tempLine = createLine(scores.lat, scores.lon, r.lat, r.lon);
+            ge.getFeatures().appendChild(tempLine);
             changeLookAt(scores.lat, scores.lon, r);
             var c = scores.target[idx].comment;
         	$('#comment').html(c);
@@ -450,7 +454,7 @@ window.setInterval(function(){update_news_time()}, 100);
       var lineStyle = lineStringPlacemark.getStyleSelector().getLineStyle();
       lineStyle.setWidth(5);
       lineStyle.getColor().set('9900ffff');  // aabbggrr format
-      ge.getFeatures().appendChild(lineStringPlacemark);
+      return lineStringPlacemark;
     }
 
     function createMarker(title, lat, lon) {
@@ -478,7 +482,6 @@ window.setInterval(function(){update_news_time()}, 100);
     function initCB(instance) {
         ge = instance;
         ge.getWindow().setVisibility(true);
-        set_friend_tag(friend_num);
         initialize();
     }
 
@@ -504,7 +507,7 @@ $(window).scroll(function(){
 		$('#score').html(display_score);
 	}
 	 if (s >= earth_start_time && s < earth_start_time + earth_duration) {
-        setScore(((s - earth_start_time) / earth_duration) * score);
+        setScore(((s - earth_start_time) / earth_duration) * earth_score);
     }
 });
 </script>
