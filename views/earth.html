@@ -41,6 +41,7 @@
        ]
     }
 
+    var tempLine;
     function setScore(score) {
         //console.log("score : " + score);
         var idx;
@@ -55,18 +56,17 @@
         } else {
             idx = 0;
         }
-        /* var c = scores.target[idx].comment;
-        var per_s = score % 20;
-        var w_idx = Math.floor(c.length * per_s);
-        $('#comment').html(c.substring(0, w_idx));
-        console.log(w_idx + " " +c.substring(0, w_idx));*/
         if (idx != current_idx) {
-            // TODO clear line
+            if (tempLine != null) {
+            	ge.getFeatures().removeChild(tempLine);
+            	tempLine = null;
+            }
             current_idx = idx;
             var r = scores.target[idx];
             ge.getFeatures().appendChild(createMarker(scores.title, scores.lat, scores.lon));
             ge.getFeatures().appendChild(createMarker(r.title, r.lat, r.lon));
-            createLine(scores.lat, scores.lon, r.lat, r.lon);
+            tempLine = createLine(scores.lat, scores.lon, r.lat, r.lon);
+            ge.getFeatures().appendChild(tempLine);
             changeLookAt(scores.lat, scores.lon, r);
             var c = scores.target[idx].comment;
         	$('#comment').html(c);
@@ -87,7 +87,7 @@
       var lineStyle = lineStringPlacemark.getStyleSelector().getLineStyle();
       lineStyle.setWidth(5);
       lineStyle.getColor().set('9900ffff');  // aabbggrr format
-      ge.getFeatures().appendChild(lineStringPlacemark);
+      return lineStringPlacemark;
     }
 
     function createMarker(title, lat, lon) {
