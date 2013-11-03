@@ -68,7 +68,7 @@ function handleSessionResponse() {
 }
 
 var global_page_info;
-
+var global_fans_list;
 // for popular
 var score_duration = 3000;
 var score_start_time = 17500;
@@ -180,6 +180,7 @@ $( document ).ready(function() {
 		},
 		url: '/flickr/exhibition_list', 
 		success: function(res) {
+			global_fans_list = res;
 			var action_order=[0, 1, 2, 5, 4, 3, 6, 7, 8];
 		 	for (var q = 0 ; q < num ; q ++) {
 		 		i=action_order[q]
@@ -279,10 +280,20 @@ $( document ).ready(function() {
  				}
 
 		        var className = "public";
+		        var div = null;
 		        if(i==9 || i==11){
 		        	className="private";
-		        }
-		        var div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[img_idx]+'"/></div>');
+		        	var img;
+		        	if (global_fans_list.friend_images[0].length>=2) {
+		        		var tidx = (i==9) ? 0 : 1;
+		        		img = global_fans_list.friend_images[0][tidx].url
+		        	} else {
+		        		img = res.imgUrl[img_idx];
+		        	}
+		        	div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+ img +'"/></div>');
+		        } else {
+		        	div= $(' <div class="'+className+'"' + 'data-' + t1 + '="left:' + x + '%;top:' + y+100 + '%;" ' + 'data-' + t2 + '="left:' + x + '%;top:' + y + '%;" data-' + duration + '=""><img class="exhibition_photo" src="'+res.imgUrl[img_idx]+'"/></div>');
+		    	}
 				div.appendTo('#sceneE_photo_gallery');
 		    }
 		}

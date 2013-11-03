@@ -64,7 +64,8 @@ exports.exhibition_list = function(req, res) {
 		 retJson['friend_images'][i]=friend_images;
 		 retJson['checkin_users'][i]=checkin_users;
 		 retJson['users'][i]=users;
-	  }
+	  	}
+	  	
 	  	res.send(retJson);
 	});	
 }
