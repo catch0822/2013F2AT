@@ -10,6 +10,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>	
 <script type="text/javascript" src="js/side-nav.js"></script>	
 <script type="text/javascript" src="js/skrollr.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <link href='http://fonts.googleapis.com/css?family=Sintony' rel='stylesheet' type='text/css'>
 
 	<!--[if lt IE 9]>
@@ -82,6 +83,14 @@ var title_gap;
 // for foot/checkin
 var font_sceneD_peoples;
 
+var friend_num = 3; // TODO real data
+var score = (friend_num >= 3) ? 100 : friend_num * 33; // FIXME change the fomular
+var earth_duration = 2000; // TODO
+var score_increasing_num = score / 1000; 
+var base_earth_start_time = 21500;
+var earth_start_time = base_earth_start_time + 1000; // TODO
+var current_idx = -1 ;
+
 $.ajax({
  	async:false,
 	type: 'POST',
@@ -99,6 +108,19 @@ $.ajax({
     	font_sceneD_peoples = g.checkins;
 	}
 });
+
+function set_friend_tag(num) { //TOOD update interface
+    var time_gap = Math.floor(earth_duration / num);
+    for(var i = 0 ; i < num ; i++){
+        var t1 = time_gap * i + earth_start_time;
+        var t2 = time_gap * (i + 1) + earth_start_time;
+        var div = $('<div class="friend" style="float:left;" ' + 
+            'data-' + base_earth_start_time + '="display:none;"' + 
+            'data-' + t1 + '="display:block;opacity:0;"' + 
+            'data-' + t2 + '="opacity:1;" ><img src="http://profile.ak.fbcdn.net/hprofile-ak-ash2/1117343_627742448_835827200_s.jpg"/></div>');
+        div.appendTo('#comment_friends');
+    }
+}
 
 function gen4foot(x, y ,t1, t2, addTo) {
     var div = $('<div ' + 
@@ -268,9 +290,16 @@ $( document ).ready(function() {
 
 	add_foot(global_page_info.checkins);
     play_next_loop();
-    skrollr.init({ edgeStrategy: 'set' });
+
+
+
+
     //TODO: modified to real UI
 });
+
+function initialize() {
+    var s = skrollr.init({ edgeStrategy: 'set' });
+}
 
 function play_next_loop() {
     $("#play_next").animate({opacity: 1.0}, {duration: 350})
@@ -278,6 +307,197 @@ function play_next_loop() {
         .animate({opacity: 1.0}, {duration: 350, complete: play_next_loop})
 }
 </script>
+
+<script type="text/javascript">
+var position = [
+	{'x':16,'y':48},
+	{'x':16,'y':78},
+	{'x':16,'y':96},
+	{'x':50,'y':56},
+	{'x':50,'y':69},
+];
+function append_news(t, x, y, duration) {
+	var div = $('<div data-' + (t-1) +'="opacity:0" ' + 
+            'data-' + t + '="opacity:1;left:' + x +'%;top:'+ y +'%;" ' + 
+            'data-' + duration + '="" ><font class="news" style="font-size:16px; font-family: arial;font-weight: bold;"></font></div>');
+   	div.appendTo('#sceneF');
+}
+var MAX_NEWS_NUM = 5;
+var json_news;
+var title;
+
+var title_gap;
+var news_anim_duration = 1000;
+var news_gap = 0;
+function generate_news(json) {
+	news_gap = news_anim_duration / get_max_text_size(json);
+    var duration = 3500;
+    var base_time = 14000;
+    var range = 1000;
+    var num_y = 3;
+    var num_x = 3;
+    var num = num_x * num_y;
+    var interval = Math.floor(duration / num);
+    var gap_y = 100 / num_y;
+    var gap_x = 100 / num_x;
+    var max_num = (MAX_NEWS_NUM < json.length) ? MAX_NEWS_NUM : json.length;
+    for (var i=0 ; i < max_num ; i++) {
+        var t = interval * i;
+        var x = position[i].x;
+        var y = position[i].y;
+        append_news(base_time+t, x, y, duration);
+    }
+    json_news = json;
+}
+
+function get_max_text_size(json) {
+	var max = 0;
+	for(var i in json) {
+		var s = json[i].title;
+		if (max < s.length) {
+			max = s.length;
+		}
+	}
+	return max;
+}
+
+function update_news_time() {
+    var d = new Date(); 
+    var datetime = d.getDate() + "/"
+            + (d.getMonth()+1)  + "/" 
+            + d.getFullYear() + " @ "  
+            + d.getHours() + ":"  
+            + d.getMinutes() + ":" 
+            + d.getSeconds() + ":"
+            + d.getMilliseconds();
+    var datetime = d.getFullYear()+"年 "
+    			+ (d.getMonth()+1)+"月"
+    			+ d.getDate()+"日 "
+    			+ d.getHours() + ":"  
+                + d.getMinutes() + ":" 
+                + d.getSeconds() + ":"
+                + d.getMilliseconds();
+    $('#time_display').html(datetime);
+}
+
+window.setInterval(function(){update_news_time()}, 100);
+
+    var scores = {
+       "lat":25.057111,"lon":121.614302, "title":"Yahoo TW",
+       "target":[
+          {"lat":25.057111,"lon":121.614302,"title":"Yahoo TW","zoom":1, "altitude":50, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO TW"},
+          {"lat":22.278053,"lon":114.185225,"title":"Yahoo HK","zoom":1, "altitude":1520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO HK"},
+          {"lat":19.112412,"lon":72.860548,"title":"Yahoo Bangkok","zoom":1, "altitude":9520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO Bangkok"},
+          {"lat":51.514037,"lon":-0.128441,"title":"Yahoo UK","zoom":1, "altitude":19520000, "heading":0, "tilt":0, "range":0, "comment" : "YAHOO UK"},
+          {"lat":37.416881,"lon":-122.025616,"title":"Yahoo US","zoom":1, "altitude":29520000, "heading":0, "tilt":1000, "range":0, "comment" : "YAHOO US"}
+       ]
+    }
+
+    function setScore(score) {
+        //console.log("score : " + score);
+        var idx;
+        if (score <= 20) {
+            idx = 4;
+        } else if (score <= 40) {
+            idx = 3;
+        } else if (score <= 60) {
+            idx = 2;
+        } else if (score <= 80) {
+            idx = 1;
+        } else {
+            idx = 0;
+        }
+        /* var c = scores.target[idx].comment;
+        var per_s = score % 20;
+        var w_idx = Math.floor(c.length * per_s);
+        $('#comment').html(c.substring(0, w_idx));
+        console.log(w_idx + " " +c.substring(0, w_idx));*/
+        if (idx != current_idx) {
+            // TODO clear line
+            current_idx = idx;
+            var r = scores.target[idx];
+            ge.getFeatures().appendChild(createMarker(scores.title, scores.lat, scores.lon));
+            ge.getFeatures().appendChild(createMarker(r.title, r.lat, r.lon));
+            createLine(scores.lat, scores.lon, r.lat, r.lon);
+            changeLookAt(scores.lat, scores.lon, r);
+            var c = scores.target[idx].comment;
+        	$('#comment').html(c);
+        }
+    }
+
+    function createLine(lat1, lon1, lat2, lon2) {
+      // Create the placemark
+      var lineStringPlacemark = ge.createPlacemark('');
+      // Create the LineString
+      var lineString = ge.createLineString('');
+      // Add LineString points
+      lineString.getCoordinates().pushLatLngAlt(lat1, lon1, 0);
+      lineString.getCoordinates().pushLatLngAlt(lat2, lon2, 0);
+      lineStringPlacemark.setStyleSelector(ge.createStyle(''));
+      lineStringPlacemark.setGeometry(lineString);
+      // Add the feature to Earth
+      var lineStyle = lineStringPlacemark.getStyleSelector().getLineStyle();
+      lineStyle.setWidth(5);
+      lineStyle.getColor().set('9900ffff');  // aabbggrr format
+      ge.getFeatures().appendChild(lineStringPlacemark);
+    }
+
+    function createMarker(title, lat, lon) {
+        var pmk = ge.createPlacemark('');
+        pmk.setDescription(title);
+        var point = ge.createPoint('');
+        point.setLatitude(lat);
+        point.setLongitude(lon);
+        pmk.setGeometry(point);
+        return pmk;
+    }
+    // Change the camera 
+    function changeLookAt(lat, lon, s){
+        var la = ge.createLookAt('');
+        // latitude, longitude, altitude, altitudeMode, heading, tilt, range
+        la.set(lat, lon, s.altitude, ge.ALTITUDE_RELATIVE_TO_GROUND, s.heading, s.tilt, s.range);
+        ge.getView().setAbstractView(la);
+    }
+
+    google.load("earth", "1", {"other_params":"sensor=false"});
+    function init() {
+        google.earth.createInstance('map3d', initCB, failureCB);
+    }
+
+    function initCB(instance) {
+        ge = instance;
+        ge.getWindow().setVisibility(true);
+        set_friend_tag(friend_num);
+        initialize();
+    }
+
+    function failureCB(errorCode) { }
+
+    google.setOnLoadCallback(init);
+$(window).scroll(function(){
+	var s = $('body').scrollTop();
+	if( s >= 14200 && s < 15000){
+		var idx = Math.round((s - 14200) / title_gap);
+		$('#news_title').html(title.substring(0, idx));
+	}
+	if ( s >= 15000 && s < 18500) {
+		var idx = Math.round((s - 15000) / news_gap);
+		$('.news').each(function(id) {
+			var s = json_news[id].title;
+			$(this).html(s.substring(0, idx));
+		});
+	}
+	if( s >= score_start_time  && s < score_start_time + score_duration){
+		var display_score = Math.round((s - score_start_time) / score_interval);
+		console.log(display_score);
+		$('#score').html(display_score);
+	}
+	 if (s >= earth_start_time && s < earth_start_time + earth_duration) {
+        setScore(((s - earth_start_time) / earth_duration) * score);
+    }
+});
+</script>
+
 <style>
 
 header[role=banner] {
@@ -484,7 +704,7 @@ img.exhibition_photo{
 </div>
 
 <div id="sceneG" style="width:100%; height:100%" data-0="display:none" data-17500="display:block;background:rgb(197,242,255);" 
-		data-20500="background:rgb(197,242,0);">
+		data-20500="background:rgb(197,242,0);bottom:0%;" data-21500="display:none;bottom:50%;">
 		<div id="circle" style="width:600px; height:600px; background: url(images/G/G_Circle_bg.png)" data-17500="transform:scale(0.2);top:5%;left:20%;" 
 		data-20500="transform:scale(1);">		
 			<img src="images/G/G_Circle_bg.png"/>
@@ -502,112 +722,19 @@ img.exhibition_photo{
 		<div data-17500="top:15%;left:40%;" data-20500="top:39%;left:60%;"><img src="images/G/G_word.png"></div>	
 </div>
 
-<script type="text/javascript">
-var position = [
-	{'x':16,'y':48},
-	{'x':16,'y':78},
-	{'x':16,'y':96},
-	{'x':50,'y':56},
-	{'x':50,'y':69},
-];
-function append_news(t, x, y, duration) {
-	var div = $('<div data-' + (t-1) +'="opacity:0" ' + 
-            'data-' + t + '="opacity:1;left:' + x +'%;top:'+ y +'%;" ' + 
-            'data-' + duration + '="" ><font class="news" style="font-size:16px; font-family: arial;font-weight: bold;"></font></div>');
-   	div.appendTo('#sceneF');
-}
-var MAX_NEWS_NUM = 5;
-var json_news;
-var title;
+<div id="sceneH" data-0="display:none;" data-21500="display:block;" data-24500="" style="width:100%;height:100%;">
 
-var title_gap;
-var news_anim_duration = 1000;
-var news_gap = 0;
-function generate_news(json) {
-	news_gap = news_anim_duration / get_max_text_size(json);
-    var duration = 3500;
-    var base_time = 14000;
-    var range = 1000;
-    var num_y = 3;
-    var num_x = 3;
-    var num = num_x * num_y;
-    var interval = Math.floor(duration / num);
-    var gap_y = 100 / num_y;
-    var gap_x = 100 / num_x;
-    var max_num = (MAX_NEWS_NUM < json.length) ? MAX_NEWS_NUM : json.length;
-    for (var i=0 ; i < max_num ; i++) {
-        var t = interval * i;
-        var x = position[i].x;
-        var y = position[i].y;
-        append_news(base_time+t, x, y, duration);
-    }
-    json_news = json;
-}
+	<div id="bg" style="width:100%;height:100%;background:rgb(89,239,203);" data-0="top:-100%;" data-22000="top:0%;"></div>
 
-function get_max_text_size(json) {
-	var max = 0;
-	for(var i in json) {
-		var s = json[i].title;
-		if (max < s.length) {
-			max = s.length;
-		}
-	}
-	return max;
-}
 
-function update_news_time() {
-    var d = new Date(); 
-    var datetime = d.getDate() + "/"
-            + (d.getMonth()+1)  + "/" 
-            + d.getFullYear() + " @ "  
-            + d.getHours() + ":"  
-            + d.getMinutes() + ":" 
-            + d.getSeconds() + ":"
-            + d.getMilliseconds();
-    var datetime = d.getFullYear()+"年 "
-    			+ (d.getMonth()+1)+"月"
-    			+ d.getDate()+"日 "
-    			+ d.getHours() + ":"  
-                + d.getMinutes() + ":" 
-                + d.getSeconds() + ":"
-                + d.getMilliseconds();
-    $('#time_display').html(datetime);
-}
+	<img data-0="" data-24500="" src="images/H/google earth_word.png"/>
+	<div id="map3d" data-0="display:none;" data-22000="display:block;top:200%;" data-22500="top:50%;" style="height:100%; width:100%;"></div>
 
-window.setInterval(function(){update_news_time()}, 100);
+	<div id="comment" data-0="top:45%;left:50%;display:none;" data-22000="display:block;opacity:0;" data-22500="opacity:1;" ></div>
 
-$(window).scroll(function(){
-	var s = $('body').scrollTop();
-	if( s >= 14200 && s < 15000){
-		var idx = Math.round((s - 14200) / title_gap);
-		$('#news_title').html(title.substring(0, idx));
-	}
-	if ( s >= 15000 && s < 18500) {
-		var idx = Math.round((s - 15000) / news_gap);
-		$('.news').each(function(id) {
-			var s = json_news[id].title;
-			$(this).html(s.substring(0, idx));
-		});
-	}
-	if( s >= score_start_time  && s < score_start_time + score_duration){
-		var display_score = Math.round((s - score_start_time) / score_interval);
-		console.log(display_score);
-		$('#score').html(display_score);
-	}
-});
-</script>
+	<div id="comment_friends" data-0="top:25%;left:50%;display:none;" data-22000="display:block;" ></div>
 
-<script>
- $(function(){
-    $( "#go" ).mousedown(function() {
-         document.getElementById("go").src = "images/B/go_2.png";
-    });
-     $( "#go" ).mouseup(function() {
-        document.getElementById("go").src = "images/B/go.png";  
-        $("#sceneE").show();
-        window.scrollTo(0, 4000);
-    });
- });
- </script>
+</div>
+
 </body>
 </html>
