@@ -2,7 +2,8 @@
     "0": {
     	"image_url":"125_box.png",
     	"image_selected":"125_box_mouse over.png",
-    	"friend_images":[],
+    	"friend_images":[{"uid_photo":"http://profile.ak.fbcdn.net/hprofile-ak-ash3/572975_732602191_1329326970_q.jpg","url":"http://sphotos-a.ak.fbcdn.net/hphotos-ak-prn1/526567_10151953637042192_2065446416_n.jpg"},
+    				  {"uid_photo":"http://profile.ak.fbcdn.net/hprofile-ak-ash2/1076883_100004291149575_978535607_q.jpg","url":"http://sphotos-b.ak.fbcdn.net/hphotos-ak-frc3/1422493_251618584991178_143599719_n.jpg"}],
         "checkin_users":[],
         "users": [
             {
